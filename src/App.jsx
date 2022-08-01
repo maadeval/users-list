@@ -1,7 +1,8 @@
-import "./App.css"
+import UsersList from "./components/UsersList"
+import { USERS_LIST } from "./constants/users-list"
 
-function App() {
-  return <div className="App"></div>
+const App = () => {
+  return <UsersList initialUsers={USERS_LIST} />
 }
 
 export default App
