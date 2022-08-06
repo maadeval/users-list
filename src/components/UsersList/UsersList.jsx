@@ -3,6 +3,8 @@ import { useFilters } from "lib/hooks/useFilters"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListRows from "../UsersListRows"
 
+import style from "./UserList.module.css"
+
 const UsersList = ({ initialUsers }) => {
   const { search, active, sort, ...setFiltersFunctions } = useFilters()
 
@@ -11,7 +13,7 @@ const UsersList = ({ initialUsers }) => {
   filteredUsers = sortUsers(filteredUsers, sort)
 
   return (
-    <section>
+    <section className={style.layout}>
       <h1>Lista de usuarios</h1>
       <UsersListFilters
         search={search}
