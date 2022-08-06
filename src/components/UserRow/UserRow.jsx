@@ -1,13 +1,15 @@
+import DisplayName from "../DisplayName/DisplayName"
 import UserRole from "../UserRole"
+import UserStatus from "../UserStatus"
 
-const UserRow = ({ username, role, active }) => {
+import style from "./UserRow.module.css"
+
+const UserRow = ({ username, role, active, name, avatar }) => {
   return (
-    <article
-      key={username}
-      style={{ display: "flex", gap: "4rem", alignItems: "center" }}>
-      <p>{username}</p>
+    <article className={style.row} key={username}>
+      <DisplayName avatar={avatar} name={name} username={username} />
+      <UserStatus status={active} />
       <UserRole role={role} />
-      <span>{active ? "Activo" : "Inactivo"}</span>
     </article>
   )
 }
