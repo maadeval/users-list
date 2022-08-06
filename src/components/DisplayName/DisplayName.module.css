@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  gap: 1rem;
+}
+
+.name,
+.username {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.username {
+  color: var(--color-gray);
+  font-size: 14px;
+}
