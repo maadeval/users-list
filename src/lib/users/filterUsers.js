@@ -43,3 +43,10 @@ export const sortUsers = (users, sortValue) => {
       return [...users]
   }
 }
+
+export const paginationUsers = (users, page, usersPerPage) => {
+  const startUserIndex = (page - 1) * usersPerPage
+  const endUserIndex = startUserIndex + usersPerPage
+
+  return users.slice(startUserIndex, endUserIndex)
+}
