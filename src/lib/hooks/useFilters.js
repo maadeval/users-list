@@ -1,11 +1,11 @@
-import { OPTIONS_SELECT } from "constants/sort-users-select"
 import { useState } from "react"
+import { SORT_OPTIONS } from "../../constants/sort-users-select"
 
 export const useFilters = () => {
   const [filters, setFilters] = useState({
     search: "",
     active: false,
-    sort: OPTIONS_SELECT[0].value,
+    sort: SORT_OPTIONS.DEFAULT,
   })
 
   const { search, active, sort } = filters

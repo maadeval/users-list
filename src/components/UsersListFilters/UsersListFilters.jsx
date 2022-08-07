@@ -1,4 +1,4 @@
-import { OPTIONS_SELECT } from "../../constants/sort-users-select"
+import { OPTIONS_SELECT, SORT_OPTIONS } from "../../constants/sort-users-select"
 import InputCheckbox from "../forms/InputCheckbox/InputCheckbox"
 import InputSearch from "../forms/InputSearch"
 import Select from "../forms/Select/Select"
@@ -24,7 +24,7 @@ const UsersListFilters = ({
         <Select value={sort} onChange={e => setSort(e.target.value)}>
           {OPTIONS_SELECT.map(option => {
             const hasActiveByFilterAndBySort =
-              active && option.value === OPTIONS_SELECT[3].value
+              active && option.value === SORT_OPTIONS.ACTIVE
             if (hasActiveByFilterAndBySort) return null
             return (
               <option key={option.value} value={option.value}>
