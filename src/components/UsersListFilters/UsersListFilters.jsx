@@ -1,4 +1,9 @@
 import { OPTIONS_SELECT } from "../../constants/sort-users-select"
+import InputCheckbox from "../forms/InputCheckbox/InputCheckbox"
+import InputSearch from "../forms/InputSearch"
+import Select from "../forms/Select/Select"
+
+import style from "./UsersListFilters.module.css"
 
 const UsersListFilters = ({
   search,
@@ -9,28 +14,40 @@ const UsersListFilters = ({
   setSort,
 }) => {
   return (
-    <form>
-      <input
-        type="text"
-        placeholder="Buscar usuario"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
-      <label htmlFor="active-selector">Solo activos</label>
-      <input
-        type="checkbox"
-        id="active-selector"
-        value={active}
-        onChange={e => setActive(e.target.checked)}
-      />
-      <select value={sort} onChange={e => setSort(e.target.value)}>
-        {OPTIONS_SELECT.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </form>
+    <div className={style.wrapper}>
+      <div className={style.row}>
+        <InputSearch
+          placeholder="Buscar..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <Select value={sort} onChange={e => setSort(e.target.value)}>
+          {OPTIONS_SELECT.map(option => {
+            const hasActiveByFilterAndBySort =
+              active && option.value === OPTIONS_SELECT[3].value
+            if (hasActiveByFilterAndBySort) return null
+            return (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            )
+          })}
+        </Select>
+      </div>
+      <div className={style.row}>
+        <div className={style.checkboxWrapper}>
+          <InputCheckbox
+            type="checkbox"
+            id="active-selector"
+            value={active}
+            onChange={e => setActive(e.target.checked)}
+          />
+          <label htmlFor="active-selector" className={style.label}>
+            Mostrar solo activos
+          </label>
+        </div>
+      </div>
+    </div>
   )
 }
 
