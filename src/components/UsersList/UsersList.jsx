@@ -51,6 +51,19 @@ const sortUsers = (users, sortValue) => {
       return [...users]
     case OPTIONS_SELECT[1].value:
       return normalizedUsers.sort((a, b) => a.name.localeCompare(b.name))
+    case OPTIONS_SELECT[2].value:
+      return normalizedUsers.sort((a, b) => {
+        if (a.role === b.role) return 0
+        if (a.role === "teacher") return -1
+        if (a.role === "student" && b.role === "other") return -1
+        return 1
+      })
+    case OPTIONS_SELECT[3].value:
+      return normalizedUsers.sort((a, b) => {
+        if (a.active && !b.active) return -1
+        if (!a.active && b.active) return 1
+        return 0
+      })
     default:
       return [...users]
   }
