@@ -1,6 +1,5 @@
-import ButtonIcon from "../ButtonIcon"
 import Select from "../forms/Select/Select"
-import SearchIcon from "../icons/SearchIcon/SearchIcon"
+import PageSelector from "../PageSelector/PageSelector"
 
 import style from "./UsersListPagination.module.css"
 
@@ -9,18 +8,28 @@ const UsersListPagination = ({
   usersPerPage,
   setPage,
   setUsersPerPage,
+  totalPages,
 }) => {
   return (
     <div className={style.wrapper}>
-      <Select
-        value={usersPerPage}
-        onChange={e => setUsersPerPage(e.target.value)}>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-      </Select>
-      <label>Elementos por pagina</label>
-      <ButtonIcon variant="black" isFill icon={SearchIcon} />
+      <div className={style.selectorPage}>
+        <Select
+          value={usersPerPage}
+          onChange={e => setUsersPerPage(Number(e.target.value))}>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
+        </Select>
+        <label>Elementos por pagina</label>
+      </div>
+      <PageSelector
+        currentPage={page}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
     </div>
   )
 }
