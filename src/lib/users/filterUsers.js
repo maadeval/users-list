@@ -45,8 +45,35 @@ export const sortUsers = (users, sortValue) => {
 }
 
 export const paginationUsers = (users, page, usersPerPage) => {
+  const totalPages = Math.ceil(users.length / usersPerPage)
+
   const startUserIndex = (page - 1) * usersPerPage
   const endUserIndex = startUserIndex + usersPerPage
 
-  return users.slice(startUserIndex, endUserIndex)
+  const listUsersPerPage = users.slice(startUserIndex, endUserIndex)
+
+  return {
+    listUsersPerPage,
+    totalPages,
+  }
+}
+
+export const usersToDisplay = (
+  users,
+  { active, search, sort, page, usersPerPage }
+) => {
+  let filteredUsers = filterActiveUsers(users, active)
+  filteredUsers = filterUsersByName(filteredUsers, search)
+  filteredUsers = sortUsers(filteredUsers, sort)
+
+  const { listUsersPerPage, totalPages } = paginationUsers(
+    filteredUsers,
+    page,
+    usersPerPage
+  )
+
+  return {
+    filteredUsers: listUsersPerPage,
+    totalPages,
+  }
 }
