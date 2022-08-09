@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { PAGE_VALUES } from "../../constants/page-selectors"
 import { SORT_OPTIONS } from "../../constants/sort-users-select"
 
 export const useFilters = () => {
@@ -6,13 +7,35 @@ export const useFilters = () => {
     search: "",
     active: false,
     sort: SORT_OPTIONS.DEFAULT,
+    page: PAGE_VALUES.PAGE,
+    usersPerPage: PAGE_VALUES.USERS_PER_PAGE,
   })
 
-  const { search, active, sort } = filters
+  const setSearch = value => {
+    setFilters({ ...filters, page: PAGE_VALUES.PAGE, search: value })
+  }
+  const setActive = value => {
+    setFilters({ ...filters, active: value })
+  }
 
-  const setSearch = value => setFilters({ ...filters, search: value })
-  const setActive = value => setFilters({ ...filters, active: value })
-  const setSort = value => setFilters({ ...filters, sort: value })
+  const setSort = value => {
+    setFilters({ ...filters, page: PAGE_VALUES.PAGE, sort: value })
+  }
 
-  return { search, active, sort, setSearch, setActive, setSort }
+  const setPage = value => {
+    setFilters({ ...filters, page: value })
+  }
+
+  const setUsersPerPage = value => {
+    setFilters({ ...filters, usersPerPage: value })
+  }
+
+  return {
+    filters,
+    setActive,
+    setPage,
+    setSearch,
+    setSort,
+    setUsersPerPage,
+  }
 }
