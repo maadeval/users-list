@@ -1,21 +1,15 @@
 import { useFilters } from "lib/hooks/useFilters"
-import { PAGE_VALUES } from "../../constants/page-selectors"
-import {
-  filterActiveUsers,
-  filterUsersByName,
-  paginationUsers,
-  sortUsers,
-} from "../../lib/users/filterUsers"
+import { useUsers } from "../../lib/hooks/useUser"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
 import UsersListRows from "../UsersListRows"
 
 import style from "./UserList.module.css"
 
-const UsersList = ({ initialUsers }) => {
+const UsersList = () => {
   const { filters, setActive, setPage, setSearch, setSort, setUsersPerPage } =
     useFilters()
-  const { filteredUsers, totalPages } = getUsers(initialUsers, filters)
+  const { filteredUsers, totalPages } = useUsers(filters)
 
   return (
     <section className={style.layout}>
@@ -38,30 +32,6 @@ const UsersList = ({ initialUsers }) => {
       />
     </section>
   )
-}
-
-const getUsers = (
-  initialUsers,
-  {
-    search,
-    active,
-    sort,
-    page = PAGE_VALUES.PAGE,
-    usersPerPage = PAGE_VALUES.USERS_PER_PAGE,
-  }
-) => {
-  let filteredUsers = filterActiveUsers(initialUsers, active)
-  filteredUsers = filterUsersByName(filteredUsers, search)
-  filteredUsers = sortUsers(filteredUsers, sort)
-
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
-
-  filteredUsers = paginationUsers(filteredUsers, page, usersPerPage)
-
-  return {
-    filteredUsers,
-    totalPages,
-  }
 }
 
 export default UsersList
