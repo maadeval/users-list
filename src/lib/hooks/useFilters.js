@@ -15,7 +15,7 @@ export const useFilters = () => {
     setFilters({ ...filters, page: PAGE_VALUES.PAGE, search: value })
   }
   const setActive = value => {
-    setFilters({ ...filters, active: value })
+    setFilters({ ...filters, page: PAGE_VALUES.PAGE, active: value })
   }
 
   const setSort = value => {
@@ -27,7 +27,7 @@ export const useFilters = () => {
   }
 
   const setUsersPerPage = value => {
-    setFilters({ ...filters, usersPerPage: value })
+    setFilters({ ...filters, page: PAGE_VALUES.PAGE, usersPerPage: value })
   }
 
   return {
