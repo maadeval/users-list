@@ -8,7 +8,7 @@ import style from "./PageSelector.module.css"
 const PageSelector = ({ currentPage, totalPages, setPage }) => {
   const isFirstPage = currentPage === PAGE_VALUES.PAGE
   const isLastPage = currentPage === totalPages || totalPages === 0
-  console.log({ currentPage, totalPages, setPage })
+
   return (
     <div className={style.wrapper}>
       <ButtonIcon
