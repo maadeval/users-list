@@ -9,7 +9,7 @@ import style from "./UserList.module.css"
 const UsersList = () => {
   const { filters, setActive, setPage, setSearch, setSort, setUsersPerPage } =
     useFilters()
-  const { filteredUsers, totalPages } = useUsers(filters)
+  const { filteredUsers, totalPages, error, loading } = useUsers(filters)
 
   return (
     <section className={style.layout}>
@@ -22,7 +22,7 @@ const UsersList = () => {
         setActive={setActive}
         setSort={setSort}
       />
-      <UsersListRows users={filteredUsers} />
+      <UsersListRows users={filteredUsers} error={error} loading={loading} />
       <UsersListPagination
         page={filters.page}
         usersPerPage={filters.usersPerPage}

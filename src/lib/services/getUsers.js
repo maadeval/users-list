@@ -6,7 +6,7 @@ export const getUsers = async signal => {
       return data
     }
   } catch (e) {
-    console.log(e)
-    return []
+    console.error(e)
+    return e
   }
 }
