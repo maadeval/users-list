@@ -11,11 +11,8 @@ export const useUsers = filters => {
 
   useEffect(() => {
     const controller = new AbortController()
-    getUsers()
-      .then(
-        data => setUsers(lastState => ({ ...lastState, data })),
-        controller.signal
-      )
+    getUsers(controller.signal)
+      .then(data => setUsers(lastState => ({ ...lastState, data })))
       .catch(e =>
         setUsers(lastState => ({
           ...lastState,
