@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.error,
+.label {
+  font-size: var(--text-sm);
+  margin-left: 0.25rem;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.error {
+  color: var(--color-red);
+}
+
+.input {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--text-md);
+  outline: none;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-sm);
+}
+
+.input:focus {
+  box-shadow: var(--shadow-md);
+}
+
+.input::placeholder {
+  color: var(--color-lightgray);
+}
+
+.inputError {
+  outline: 1px solid var(--color-red);
+}
