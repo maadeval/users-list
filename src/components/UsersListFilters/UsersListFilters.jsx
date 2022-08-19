@@ -12,6 +12,7 @@ const UsersListFilters = ({
   setActive,
   sort,
   setSort,
+  slot,
 }) => {
   return (
     <div className={style.wrapper}>
@@ -46,6 +47,7 @@ const UsersListFilters = ({
             Mostrar solo activos
           </label>
         </div>
+        {slot}
       </div>
     </div>
   )
