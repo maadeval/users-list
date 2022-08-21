@@ -11,7 +11,7 @@ const InputText = ({ label, error, className, ...props }) => {
           error ? style.inputError : ""
         }`}
       />
-      {error && <span className={style.error}>{error}</span>}
+      <span className={style.error}>{error}</span>
     </label>
   )
 }

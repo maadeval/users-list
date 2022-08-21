@@ -1,6 +1,7 @@
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  position: relative;
+  width: 100%;
 }
 
 .error,
@@ -15,9 +16,11 @@
 
 .error {
   color: var(--color-red);
+  display: inline-block;
 }
 
 .input {
+  width: 100%;
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   padding: 0.5rem 1rem;
@@ -26,6 +29,7 @@
   border: none;
   box-shadow: var(--shadow-sm);
   border-radius: var(--radius-sm);
+  box-sizing: border-box;
 }
 
 .input:focus {

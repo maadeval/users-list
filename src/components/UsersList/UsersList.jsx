@@ -11,7 +11,7 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
-  const { selectedForm, setCreateForm } = useSelectForm()
+  const { selectedForm, setCreateForm, setFilterForm } = useSelectForm()
   const { filters, setActive, setPage, setSearch, setSort, setUsersPerPage } =
     useFilters()
   const { filteredUsers, totalPages, error, loading } = useUsers(filters)
@@ -30,7 +30,7 @@ const UsersList = () => {
           slot={<Button onClick={setCreateForm}>Agregar usuario</Button>}
         />
       ) : (
-        <UsersListCreate />
+        <UsersListCreate onClose={setFilterForm} />
       )}
       <UsersListRows users={filteredUsers} error={error} loading={loading} />
       <UsersListPagination
