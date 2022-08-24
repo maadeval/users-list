@@ -1,4 +1,4 @@
-import { ROLE_OPTIONS, SORT_OPTIONS } from "../../constants/sort-users-select"
+import { ROLE_OPTIONS, SORT_OPTIONS } from "../../constants/sortUsersSelect"
 
 export const filterActiveUsers = (users, activeStatus) => {
   if (!activeStatus) return [...users]

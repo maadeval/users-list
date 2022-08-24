@@ -1,4 +1,4 @@
-import { OPTIONS_SELECT, SORT_OPTIONS } from "../../constants/sort-users-select"
+import { OPTIONS_SELECT, SORT_OPTIONS } from "../../constants/sortUsersSelect"
 import InputCheckbox from "../forms/InputCheckbox/InputCheckbox"
 import InputSearch from "../forms/InputSearch"
 import Select from "../forms/Select/Select"
@@ -12,6 +12,7 @@ const UsersListFilters = ({
   setActive,
   sort,
   setSort,
+  slot,
 }) => {
   return (
     <div className={style.wrapper}>
@@ -46,6 +47,7 @@ const UsersListFilters = ({
             Mostrar solo activos
           </label>
         </div>
+        {slot}
       </div>
     </div>
   )

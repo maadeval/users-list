@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { PAGE_VALUES } from "../../constants/page-selectors"
-import { SORT_OPTIONS } from "../../constants/sort-users-select"
+import { PAGE_VALUES } from "../../constants/pageSelectors"
+import { SORT_OPTIONS } from "../../constants/sortUsersSelect"
 
 export const useFilters = () => {
   const [filters, setFilters] = useState({

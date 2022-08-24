@@ -1,4 +1,4 @@
-import { ROLE_OPTIONS } from "../../constants/sort-users-select"
+import { ROLE_OPTIONS } from "../../constants/sortUsersSelect"
 import style from "./UserRole.module.css"
 
 const ROLE_STYLES = {

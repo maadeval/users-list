@@ -1,4 +1,4 @@
-import { PAGE_VALUES } from "../../constants/page-selectors"
+import { PAGE_VALUES } from "../../constants/pageSelectors"
 import ButtonIcon from "../ButtonIcon"
 import ArrowLeft from "../icons/ArrowLeft"
 import ArrowRight from "../icons/ArrowRight"
