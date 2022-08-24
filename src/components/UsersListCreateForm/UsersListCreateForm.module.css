@@ -1,0 +1,35 @@
+.form {
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.formRow ~ .formRow {
+  margin-top: 1rem;
+}
+
+.input {
+  width: 100%;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(50%) translateY(-50%);
+}
