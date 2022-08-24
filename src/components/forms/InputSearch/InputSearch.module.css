@@ -1,5 +1,6 @@
 .wrapper {
   position: relative;
+  width: 100%;
 }
 
 .input {
@@ -24,7 +25,7 @@
   height: 1rem;
 
   position: absolute;
-  padding: 0.5rem 1rem;
+  margin: 0.5rem 1rem;
 
   color: var(--color-lightgray);
   pointer-events: none;
