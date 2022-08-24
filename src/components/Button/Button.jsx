@@ -9,7 +9,9 @@ const Button = ({ variant = "primary", children, className, ...props }) => {
   return (
     <button
       {...props}
-      className={`${VARIANT_CLASSES[variant]} ${style.button} ${className}`}>
+      className={`${VARIANT_CLASSES[variant]} ${style.button} ${
+        className || ""
+      }`}>
       {children}
     </button>
   )
