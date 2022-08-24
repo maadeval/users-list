@@ -7,12 +7,13 @@
 
 .formRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
 }
 
 .formRow ~ .formRow {
+  align-items: center;
   margin-top: 1rem;
 }
 

@@ -1,5 +1,6 @@
 import { useFilters } from "lib/hooks/useFilters"
 import { USERS_FORM_PANELS } from "../../constants/usersFormsPanels"
+import { useFormsPanel } from "../../lib/hooks/useFormsPanel"
 import { useUsers } from "../../lib/hooks/useUser"
 import Button from "../Button/Button"
 import UsersListCreateForm from "../UsersListCreateForm/UsersListCreateForm"
@@ -10,6 +11,7 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
+  const { currentFormPanel, setCreatePanel, setFiltersPanel } = useFormsPanel()
   const { filters, setActive, setPage, setSearch, setSort, setUsersPerPage } =
     useFilters()
   const { filteredUsers, totalPages, error, loading } = useUsers(filters)

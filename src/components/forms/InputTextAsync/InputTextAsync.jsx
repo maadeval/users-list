@@ -27,7 +27,7 @@ const InputTextAsync = ({
         />
         {icon}
       </div>
-      <span className={style.error}>{error}</span>
+      {error && <span className={style.error}>{error}</span>}
     </label>
   )
 }
