@@ -14,44 +14,6 @@ const USERNAME_LENGTH = {
   MAX: 15,
 }
 
-export const validateUsernameAsync = async (
-  username,
-  setFormValues,
-  { signal }
-) => {
-  let error
-  try {
-    const res = await fetch(
-      `http://localhost:4000/users?username=${username}`,
-      { signal }
-    )
-    if (res.ok) {
-      const users = await res.json()
-      error = !!users.length && "Ya existe un usuario con ese nombre"
-    } else {
-      error = "Error al validar el nombre de usuario"
-    }
-
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        ...lastValues.username,
-        error,
-        loading: false,
-      },
-    }))
-  } catch {
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        ...lastValues.username,
-        error: "No se pudo conectar con el servidor",
-        loading: false,
-      },
-    }))
-  }
-}
-
 export const validateName = name => {
   if (name.length < NAME_LENGTH.MIN || name.length > NAME_LENGTH.MAX)
     return `Debe tener entre ${NAME_LENGTH.MIN} y ${NAME_LENGTH.MAX} caracteres`
@@ -79,4 +41,28 @@ export const validateUsername = username => {
 
   if (!REGEX.username.test(username))
     return "Solo se permiten minusculas y numeros"
+}
+
+export const validateUsernameAsync = async (
+  username,
+  setUsernameError,
+  { signal }
+) => {
+  let error
+  try {
+    const res = await fetch(
+      `http://localhost:4000/users?username=${username}`,
+      { signal }
+    )
+    if (res.ok) {
+      const users = await res.json()
+      error = !!users.length && "Ya existe un usuario con ese nombre"
+    } else {
+      error = "Error al validar el nombre de usuario"
+    }
+
+    setUsernameError(error)
+  } catch {
+    setUsernameError("Error al conectarse con el servidor")
+  }
 }

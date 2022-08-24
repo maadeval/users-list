@@ -18,20 +18,6 @@ export const useFormValues = () => {
     },
   })
 
-  useEffect(() => {
-    const controller = new AbortController()
-
-    if (formValues.username.loading) {
-      validateUsernameAsync(
-        formValues.username.value,
-        setFormValues,
-        controller.signal
-      )
-    }
-
-    return () => controller.abort()
-  }, [formValues.username.loading, formValues.username.value])
-
   const setName = name => {
     const error = validateName(name)
 
@@ -56,6 +42,30 @@ export const useFormValues = () => {
       },
     }))
   }
+
+  const setUsernameError = error =>
+    setFormValues(lastValues => ({
+      ...lastValues,
+      username: {
+        ...lastValues.username,
+        error,
+        loading: false,
+      },
+    }))
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    if (formValues.username.loading) {
+      validateUsernameAsync(
+        formValues.username.value,
+        setUsernameError,
+        controller.signal
+      )
+    }
+
+    return () => controller.abort()
+  }, [formValues.username.loading, formValues.username.value])
 
   return {
     ...formValues,
