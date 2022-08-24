@@ -1,12 +1,12 @@
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: block;
   position: relative;
   width: 100%;
 }
 
 .relative {
   position: relative;
+  display: flex;
 }
 
 .label,
@@ -21,9 +21,11 @@
 
 .error {
   color: var(--color-red);
+  display: inline-block;
 }
 
 .input {
+  width: 100%;
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   padding: 0.5rem 1rem;
@@ -32,6 +34,7 @@
   box-shadow: var(--shadow-sm);
   border: none;
   outline: none;
+  box-sizing: border-box;
 }
 
 .input::placeholder {
