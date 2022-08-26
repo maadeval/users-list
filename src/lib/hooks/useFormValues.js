@@ -54,18 +54,20 @@ export const useFormValues = () => {
     }))
 
   useEffect(() => {
-    const controller = new AbortController()
-
     if (formValues.username.loading) {
-      validateUsernameAsync(
-        formValues.username.value,
-        setUsernameError,
-        controller.signal
-      )
-    }
+      const controller = new AbortController()
+      const timer = setTimeout(() => {
+        validateUsernameAsync(formValues.username.value, setUsernameError, {
+          signal: controller.signal,
+        })
+      }, 500)
 
-    return () => controller.abort()
-  }, [formValues.username.loading, formValues.username.value])
+      return () => {
+        controller.abort()
+        clearTimeout(timer)
+      }
+    }
+  }, [])
 
   return {
     ...formValues,

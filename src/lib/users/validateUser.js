@@ -49,20 +49,22 @@ export const validateUsernameAsync = async (
   { signal }
 ) => {
   let error
+
   try {
     const res = await fetch(
       `http://localhost:4000/users?username=${username}`,
       { signal }
     )
     if (res.ok) {
-      const users = await res.json()
-      error = !!users.length && "Ya existe un usuario con ese nombre"
+      const data = await res.json()
+      if (data.length) error = "Ya existe un usuario con ese nombre"
     } else {
       error = "Error al validar el nombre de usuario"
     }
-
-    setUsernameError(error)
-  } catch {
-    setUsernameError("Error al conectarse con el servidor")
+  } catch (err) {
+    if (err.name === "AbortError") return
+    error = "Error al validar"
   }
+
+  setUsernameError(error)
 }

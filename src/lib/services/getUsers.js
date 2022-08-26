@@ -5,8 +5,8 @@ export const getUsers = async signal => {
       const data = await res.json()
       return data
     }
-  } catch (e) {
-    console.error(e)
-    return e
+  } catch (err) {
+    if (err.name === "AbortError") return []
+    console.error(err)
   }
 }
