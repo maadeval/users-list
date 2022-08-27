@@ -67,7 +67,7 @@ export const useFormValues = () => {
         clearTimeout(timer)
       }
     }
-  }, [])
+  }, [formValues.username.loading, formValues.username.value])
 
   return {
     ...formValues,
