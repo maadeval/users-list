@@ -1,5 +1,5 @@
 import { ROLE_OPTIONS } from "../../constants/sort-users-select"
-import { useFormValues } from "../../lib/hooks/useFormValues"
+import { useCreateForm } from "../../lib/hooks/useCreateForm"
 import Button from "../Button/Button"
 import ButtonIcon from "../ButtonIcon/ButtonIcon"
 import InputCheckbox from "../forms/InputCheckbox/InputCheckbox"
@@ -11,7 +11,7 @@ import CrossCircleIcon from "../icons/CrossCircleIcon"
 import style from "./UsersListCreate.module.css"
 
 const UsersListCreate = ({ onClose }) => {
-  const { name, username, setName, setUsername } = useFormValues()
+  const { name, username, setName, setUsername } = useCreateForm()
 
   return (
     <form className={style.form}>

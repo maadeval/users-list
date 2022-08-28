@@ -1,3 +1,5 @@
+import { findUserByUsername } from "../services/findUserByUsername"
+
 const REGEX = {
   name: /^[a-záéíóú\s-]+$/i,
   username: /^[a-z0-9]+$/,
@@ -48,23 +50,14 @@ export const validateUsernameAsync = async (
   setUsernameError,
   { signal }
 ) => {
-  let error
+  const { user, aborted, error } = await findUserByUsername(username, signal)
 
-  try {
-    const res = await fetch(
-      `http://localhost:4000/users?username=${username}`,
-      { signal }
-    )
-    if (res.ok) {
-      const data = await res.json()
-      if (data.length) error = "Ya existe un usuario con ese nombre"
-    } else {
-      error = "Error al validar el nombre de usuario"
-    }
-  } catch (err) {
-    if (err.name === "AbortError") return
-    error = "Error al validar"
-  }
+  if (aborted) return
 
-  setUsernameError(error)
+  let errorMessage
+
+  if (error) errorMessage = "Error al validar"
+  else if (user) errorMessage = "Ya existe un usuario con ese nombre"
+
+  setUsernameError(errorMessage)
 }

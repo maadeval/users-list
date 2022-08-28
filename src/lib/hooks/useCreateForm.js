@@ -5,7 +5,7 @@ import {
   validateUsernameAsync,
 } from "../users/validateUser"
 
-export const useFormValues = () => {
+export const useCreateForm = () => {
   const [formValues, setFormValues] = useState({
     name: {
       value: "",
@@ -54,24 +54,32 @@ export const useFormValues = () => {
     }))
 
   useEffect(() => {
-    if (formValues.username.loading) {
-      const controller = new AbortController()
-      const timer = setTimeout(() => {
-        validateUsernameAsync(formValues.username.value, setUsernameError, {
-          signal: controller.signal,
-        })
-      }, 500)
+    if (!formValues.username.loading) return
 
-      return () => {
-        controller.abort()
-        clearTimeout(timer)
-      }
+    const controller = new AbortController()
+    const timer = setTimeout(() => {
+      validateUsernameAsync(formValues.username.value, setUsernameError, {
+        signal: controller.signal,
+      })
+    }, 500)
+
+    return () => {
+      controller.abort()
+      clearTimeout(timer)
     }
   }, [formValues.username.loading, formValues.username.value])
+
+  const isFormInvalid =
+    !formValues.name.value ||
+    !formValues.username.value ||
+    formValues.name.error ||
+    formValues.username.error ||
+    formValues.username.loading
 
   return {
     ...formValues,
     setName,
     setUsername,
+    isFormInvalid,
   }
 }

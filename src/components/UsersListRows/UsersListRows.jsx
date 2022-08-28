@@ -4,7 +4,7 @@ import style from "./UsersListRows.module.css"
 
 const UsersListRows = ({ users, error, loading }) => {
   if (loading) return <p>Cargando...</p>
-  if (error) return <p>{error}</p>
+  if (error) return <p>Error al encontrar los usuarios</p>
   if (users.length === 0) return <p>No hay resultados en la busqueda</p>
 
   return (
