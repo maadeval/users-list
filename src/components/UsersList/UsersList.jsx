@@ -13,7 +13,7 @@ import style from "./UserList.module.css"
 
 const UsersList = () => {
   const { currentFormPanel, setCreatePanel, setFiltersPanel } = useFormsPanel()
-  const { filters, setActive, setPage, setSearch, setSort, setUsersPerPage } =
+  const { filters, pagination, filtersSetters, paginationSetters } =
     useFilters()
 
   const { users, error, loading } = useUsers()
@@ -25,12 +25,8 @@ const UsersList = () => {
       <h1 className={style.title}>Lista de usuarios</h1>
       {currentFormPanel === USERS_FORM_PANELS.FILTERS ? (
         <UsersListFilters
-          search={filters.search}
-          active={filters.active}
-          sort={filters.sort}
-          setSearch={setSearch}
-          setActive={setActive}
-          setSort={setSort}
+          {...filters}
+          {...filtersSetters}
           slot={<Button onClick={setCreatePanel}>Agregar Usuario</Button>}
         />
       ) : (
@@ -38,10 +34,8 @@ const UsersList = () => {
       )}
       <UsersListRows users={filteredUsers} error={error} loading={loading} />
       <UsersListPagination
-        page={filters.page}
-        usersPerPage={filters.usersPerPage}
-        setPage={setPage}
-        setUsersPerPage={setUsersPerPage}
+        {...pagination}
+        {...paginationSetters}
         totalPages={totalPages}
       />
     </section>

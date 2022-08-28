@@ -30,12 +30,26 @@ export const useFilters = () => {
     setFilters({ ...filters, page: PAGE_VALUES.PAGE, usersPerPage: value })
   }
 
+  const { active, page, search, sort, usersPerPage } = filters
+
   return {
-    filters,
-    setActive,
-    setPage,
-    setSearch,
-    setSort,
-    setUsersPerPage,
+    filters: {
+      active,
+      search,
+      sort,
+    },
+    pagination: {
+      page,
+      usersPerPage,
+    },
+    filtersSetters: {
+      setActive,
+      setSearch,
+      setSort,
+    },
+    paginationSetters: {
+      setPage,
+      setUsersPerPage,
+    },
   }
 }
