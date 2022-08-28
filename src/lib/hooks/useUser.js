@@ -22,18 +22,28 @@ export const useUsers = () => {
       error: true,
     })
 
+  const reloadUsers = () =>
+    setUsers({
+      data: [],
+      loading: true,
+      error: false,
+    })
+
   useEffect(() => {
+    if (!users.loading) return
+
     const controller = new AbortController()
 
     loadUsers(setData, setError, controller.signal)
 
     return () => controller.abort()
-  }, [])
+  }, [users.loading])
 
   return {
     users: users.data,
-    error: users.error,
-    loading: users.loading,
+    usersError: users.error,
+    usersLoading: users.loading,
+    reloadUsers,
   }
 }
 

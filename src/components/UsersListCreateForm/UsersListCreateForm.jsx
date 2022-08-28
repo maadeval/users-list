@@ -12,7 +12,7 @@ import CrossIcon from "../icons/CrossIcon/CrossIcon"
 
 import style from "./UsersListCreateForm.module.css"
 
-const UsersListCreateForm = ({ onClose }) => {
+const UsersListCreateForm = ({ onClose, onSuccess }) => {
   const [isSubmiting, setIsSubmitting] = useState(false)
   const { name, username, setName, setUsername, isFormInvalid } =
     useCreateForm()
@@ -21,7 +21,7 @@ const UsersListCreateForm = ({ onClose }) => {
     <div className={style.wrapper}>
       <form
         onSubmit={e =>
-          handleSubmit(e, name, username, setIsSubmitting, onClose)
+          handleSubmit(e, name, username, setIsSubmitting, onSuccess)
         }>
         <div className={style.formRow}>
           <InputText
@@ -66,7 +66,7 @@ const UsersListCreateForm = ({ onClose }) => {
   )
 }
 
-const handleSubmit = async (ev, name, username, setIsSubmitting, onClose) => {
+const handleSubmit = async (ev, name, username, setIsSubmitting, onSuccess) => {
   ev.preventDefault()
 
   setIsSubmitting(true)
@@ -83,7 +83,7 @@ const handleSubmit = async (ev, name, username, setIsSubmitting, onClose) => {
 
   if (aborted) return
 
-  if (success) onClose()
+  if (success) onSuccess()
   else setIsSubmitting(false)
 }
 

@@ -60,7 +60,8 @@ export const paginationUsers = (users, page, usersPerPage) => {
 
 export const usersToDisplay = (
   users,
-  { active, search, sort, page, usersPerPage }
+  { active, search, sort },
+  { page, usersPerPage }
 ) => {
   let filteredUsers = filterActiveUsers(users, active)
   filteredUsers = filterUsersByName(filteredUsers, search)

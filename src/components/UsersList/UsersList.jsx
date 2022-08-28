@@ -13,12 +13,27 @@ import style from "./UserList.module.css"
 
 const UsersList = () => {
   const { currentFormPanel, setCreatePanel, setFiltersPanel } = useFormsPanel()
-  const { filters, pagination, filtersSetters, paginationSetters } =
-    useFilters()
+  const {
+    filters,
+    pagination,
+    filtersSetters,
+    paginationSetters,
+    resetFilters,
+  } = useFilters()
 
-  const { users, error, loading } = useUsers()
+  const { users, usersError, usersLoading, reloadUsers } = useUsers()
 
-  const { filteredUsers, totalPages } = usersToDisplay(users, filters)
+  const { filteredUsers, totalPages } = usersToDisplay(
+    users,
+    filters,
+    pagination
+  )
+
+  const onSuccess = () => {
+    reloadUsers()
+    resetFilters()
+    setFiltersPanel()
+  }
 
   return (
     <section className={style.layout}>
@@ -30,9 +45,13 @@ const UsersList = () => {
           slot={<Button onClick={setCreatePanel}>Agregar Usuario</Button>}
         />
       ) : (
-        <UsersListCreateForm onClose={setFiltersPanel} />
+        <UsersListCreateForm onClose={setFiltersPanel} onSuccess={onSuccess} />
       )}
-      <UsersListRows users={filteredUsers} error={error} loading={loading} />
+      <UsersListRows
+        users={filteredUsers}
+        error={usersError}
+        loading={usersLoading}
+      />
       <UsersListPagination
         {...pagination}
         {...paginationSetters}
