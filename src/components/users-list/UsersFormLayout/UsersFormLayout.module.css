@@ -1,0 +1,13 @@
+.wrapper {
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(50%) translateY(-50%);
+}

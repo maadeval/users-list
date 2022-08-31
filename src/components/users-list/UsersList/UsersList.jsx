@@ -1,9 +1,10 @@
 import { useFilters } from "lib/hooks/useFilters"
-import { USERS_FORM_PANELS } from "../../constants/usersFormsPanels"
-import { useFormsPanel } from "../../lib/hooks/useFormsPanel"
-import { useUsers } from "../../lib/hooks/useUser"
-import { usersToDisplay } from "../../lib/users/filterUsers"
-import Button from "../Button/Button"
+import { USERS_FORM_PANELS } from "../../../constants/usersFormsPanels"
+import { useFormsPanel } from "../../../lib/hooks/useFormsPanel"
+import { useUsers } from "../../../lib/hooks/useUser"
+import { usersToDisplay } from "../../../lib/users/filterUsers"
+import Button from "../../Button/Button"
+import UsersFormLayout from "../UsersFormLayout/UsersFormLayout"
 import UsersListCreateForm from "../UsersListCreateForm/UsersListCreateForm"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
@@ -45,7 +46,9 @@ const UsersList = () => {
           slot={<Button onClick={setCreatePanel}>Agregar Usuario</Button>}
         />
       ) : (
-        <UsersListCreateForm onClose={setFiltersPanel} onSuccess={onSuccess} />
+        <UsersFormLayout onClose={setFiltersPanel}>
+          <UsersListCreateForm onSuccess={onSuccess} />
+        </UsersFormLayout>
       )}
       <UsersListRows
         users={filteredUsers}

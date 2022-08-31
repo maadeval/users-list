@@ -1,5 +1,5 @@
-import Select from "../forms/Select/Select"
-import PageSelector from "../PageSelector/PageSelector"
+import Select from "../../forms/Select/Select"
+import PageSelector from "../../PageSelector/PageSelector"
 
 import style from "./UsersListPagination.module.css"
 

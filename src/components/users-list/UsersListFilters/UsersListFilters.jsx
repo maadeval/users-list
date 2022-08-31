@@ -1,7 +1,10 @@
-import { OPTIONS_SELECT, SORT_OPTIONS } from "../../constants/sortUsersSelect"
-import InputCheckbox from "../forms/InputCheckbox/InputCheckbox"
-import InputSearch from "../forms/InputSearch"
-import Select from "../forms/Select/Select"
+import {
+  OPTIONS_SELECT,
+  SORT_OPTIONS,
+} from "../../../constants/sortUsersSelect"
+import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
+import InputSearch from "../../forms/InputSearch"
+import Select from "../../forms/Select/Select"
 
 import style from "./UsersListFilters.module.css"
 

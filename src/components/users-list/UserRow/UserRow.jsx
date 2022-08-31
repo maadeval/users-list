@@ -1,4 +1,4 @@
-import DisplayName from "../DisplayName/DisplayName"
+import DisplayName from "../../DisplayName/DisplayName"
 import UserRole from "../UserRole"
 import UserStatus from "../UserStatus"
 
