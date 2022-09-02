@@ -2,17 +2,25 @@ import { useState } from "react"
 import { USERS_FORM_PANELS } from "../../constants/usersFormsPanels"
 
 export const useFormsPanel = () => {
-  const [currentFormPanel, setCurrentFormPanel] = useState(
-    USERS_FORM_PANELS.FILTERS
-  )
+  const [currentFormPanel, setCurrentFormPanel] = useState({
+    form: USERS_FORM_PANELS.FILTERS,
+  })
 
-  const setFiltersPanel = () => setCurrentFormPanel(USERS_FORM_PANELS.FILTERS)
-  const setCreatePanel = () => setCurrentFormPanel(USERS_FORM_PANELS.CREATE)
-  const setEditPanel = () => setCurrentFormPanel(USERS_FORM_PANELS.EDIT)
-  const setDeletePanel = () => setCurrentFormPanel(USERS_FORM_PANELS.DELETE)
+  const setFiltersPanel = () =>
+    setCurrentFormPanel({ form: USERS_FORM_PANELS.FILTERS })
+
+  const setCreatePanel = () =>
+    setCurrentFormPanel({ form: USERS_FORM_PANELS.CREATE })
+
+  const setEditPanel = user =>
+    setCurrentFormPanel({ form: USERS_FORM_PANELS.EDIT, user })
+
+  const setDeletePanel = user =>
+    setCurrentFormPanel({ form: USERS_FORM_PANELS.DELETE, user })
 
   return {
-    currentFormPanel,
+    currentFormPanel: currentFormPanel.form,
+    currentUser: currentFormPanel.user,
     setFiltersPanel,
     setCreatePanel,
     setEditPanel,

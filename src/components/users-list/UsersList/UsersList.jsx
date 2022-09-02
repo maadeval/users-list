@@ -13,7 +13,15 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
-  const { currentFormPanel, setCreatePanel, setFiltersPanel } = useFormsPanel()
+  const {
+    currentFormPanel,
+    currentUser,
+    setCreatePanel,
+    setFiltersPanel,
+    setDeletePanel,
+    setEditPanel,
+  } = useFormsPanel()
+
   const {
     filters,
     pagination,
@@ -21,6 +29,8 @@ const UsersList = () => {
     paginationSetters,
     resetFilters,
   } = useFilters()
+
+  console.log({ currentUser })
 
   const { users, usersError, usersLoading, reloadUsers } = useUsers()
 
@@ -54,6 +64,8 @@ const UsersList = () => {
         users={filteredUsers}
         error={usersError}
         loading={usersLoading}
+        setDeletePanel={setDeletePanel}
+        setEditPanel={setEditPanel}
       />
       <UsersListPagination
         {...pagination}
