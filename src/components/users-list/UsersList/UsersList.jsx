@@ -6,6 +6,7 @@ import { usersToDisplay } from "../../../lib/users/filterUsers"
 import Button from "../../Button/Button"
 import UsersFormLayout from "../UsersFormLayout/UsersFormLayout"
 import UsersListCreateForm from "../UsersListCreateForm/UsersListCreateForm"
+import UsersListEditForm from "../UsersListEditForm"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
 import UsersListRows from "../UsersListRows"
@@ -57,7 +58,12 @@ const UsersList = () => {
         />
       ) : (
         <UsersFormLayout onClose={setFiltersPanel}>
-          <UsersListCreateForm onSuccess={onSuccess} />
+          {currentFormPanel === USERS_FORM_PANELS.ADD && (
+            <UsersListCreateForm onSuccess={onSuccess} />
+          )}
+          {currentFormPanel === USERS_FORM_PANELS.EDIT && (
+            <UsersListEditForm onSuccess={onSuccess} user={currentUser} />
+          )}
         </UsersFormLayout>
       )}
       <UsersListRows
