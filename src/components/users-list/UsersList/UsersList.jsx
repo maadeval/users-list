@@ -31,8 +31,6 @@ const UsersList = () => {
     resetFilters,
   } = useFilters()
 
-  console.log({ currentUser })
-
   const { users, usersError, usersLoading, reloadUsers } = useUsers()
 
   const { filteredUsers, totalPages } = usersToDisplay(
@@ -58,7 +56,7 @@ const UsersList = () => {
         />
       ) : (
         <UsersFormLayout onClose={setFiltersPanel}>
-          {currentFormPanel === USERS_FORM_PANELS.ADD && (
+          {currentFormPanel === USERS_FORM_PANELS.CREATE && (
             <UsersListCreateForm onSuccess={onSuccess} />
           )}
           {currentFormPanel === USERS_FORM_PANELS.EDIT && (

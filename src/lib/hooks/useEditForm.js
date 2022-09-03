@@ -34,13 +34,14 @@ export const useEditForm = initialUser => {
 
   const setUsername = username => {
     const error = validateUsername(username)
+    const isInitialUser = username === initialUser.username
 
     setFormValues(lastValues => ({
       ...lastValues,
       username: {
         value: username,
         error,
-        loading: !error,
+        loading: !error && !isInitialUser,
       },
     }))
   }
@@ -84,6 +85,7 @@ export const useEditForm = initialUser => {
   }, [formValues.username.loading, formValues.username.value])
 
   const isFormInvalid =
+    areInitialValues(formValues, initialUser) ||
     !formValues.name.value ||
     !formValues.username.value ||
     formValues.name.error ||
@@ -98,4 +100,15 @@ export const useEditForm = initialUser => {
     setActive,
     setRole,
   }
+}
+
+const areInitialValues = (formValues, initialUser) => {
+  const { name, username, role, active } = formValues
+
+  return (
+    name.value === initialUser.name &&
+    username.value === initialUser.username &&
+    role === initialUser.role &&
+    active === initialUser.active
+  )
 }

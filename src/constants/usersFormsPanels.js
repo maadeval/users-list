@@ -1,6 +1,6 @@
 export const USERS_FORM_PANELS = {
   FILTERS: "filters",
-  ADD: "add",
+  CREATE: "create",
   EDIT: "edit",
   DELETE: "delete",
 }

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ROLE_OPTIONS } from "../../../constants/sortUsersSelect"
 import { useEditForm } from "../../../lib/hooks/useEditForm"
-import { createUser } from "../../../lib/services/createUsers"
+import { updateUser } from "../../../lib/services/updateUser"
 import Button from "../../Button/Button"
 import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
 import InputText from "../../forms/InputText/InputText"
@@ -27,7 +27,18 @@ const UsersListEditForm = ({ onSuccess, user }) => {
   return (
     <form
       onSubmit={e =>
-        handleSubmit(e, name, username, setIsSubmitting, onSuccess)
+        handleSubmit(
+          e,
+          {
+            id: user.id,
+            name: name.value,
+            username: username.value,
+            active,
+            role,
+          },
+          setIsSubmitting,
+          onSuccess
+        )
       }>
       <div className={style.formRow}>
         <InputText
@@ -40,7 +51,11 @@ const UsersListEditForm = ({ onSuccess, user }) => {
         <InputTextAsync
           className={style.input}
           error={username.error}
-          success={username.value && !username.error && !username.loading}
+          success={
+            !username.error &&
+            !username.loading &&
+            user.username !== username.value
+          }
           loading={username.loading}
           label="Username"
           onChange={e => setUsername(e.target.value)}
@@ -58,36 +73,26 @@ const UsersListEditForm = ({ onSuccess, user }) => {
         </Select>
         <label className={style.checkbox}>
           <InputCheckbox
-            checked={active.active}
+            checked={active}
             onChange={ev => setActive(ev.target.checked)}
             name="active"
           />
           <span>Activo?</span>
         </label>
         <Button disabled={isFormInvalid || isSubmiting} type="submit">
-          {isSubmiting ? "Creando..." : "Crear usuario"}
+          {isSubmiting ? "Creando..." : "Editar usuario"}
         </Button>
       </div>
     </form>
   )
 }
 
-const handleSubmit = async (ev, name, username, setIsSubmitting, onSuccess) => {
+const handleSubmit = async (ev, user, setIsSubmitting, onSuccess) => {
   ev.preventDefault()
 
   setIsSubmitting(true)
 
-  const newUser = {
-    id: crypto.randomUUID(),
-    name: name.value,
-    username: username.value,
-    active: ev.target.active.checked,
-    role: ev.target.role.value,
-  }
-
-  const { success, aborted } = await createUser(newUser)
-
-  if (aborted) return
+  const { success } = await updateUser(user)
 
   if (success) onSuccess()
   else setIsSubmitting(false)
