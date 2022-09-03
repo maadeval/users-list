@@ -6,19 +6,9 @@ import {
 } from "../users/validateUser"
 
 export const useEditForm = initialUser => {
-  const [formValues, setFormValues] = useState({
-    name: {
-      value: initialUser.name,
-      error: undefined,
-    },
-    username: {
-      value: initialUser.username,
-      error: undefined,
-      loading: false,
-    },
-    role: initialUser.role,
-    active: initialUser.active,
-  })
+  const [formValues, setFormValues] = useState(() =>
+    getInitialState(initialUser)
+  )
 
   const setName = name => {
     const error = validateName(name)
@@ -69,6 +59,10 @@ export const useEditForm = initialUser => {
     }))
 
   useEffect(() => {
+    setFormValues(getInitialState(initialUser))
+  }, [initialUser])
+
+  useEffect(() => {
     if (!formValues.username.loading) return
 
     const controller = new AbortController()
@@ -101,6 +95,20 @@ export const useEditForm = initialUser => {
     setRole,
   }
 }
+
+const getInitialState = initialUser => ({
+  name: {
+    value: initialUser.name,
+    error: undefined,
+  },
+  username: {
+    value: initialUser.username,
+    error: undefined,
+    loading: false,
+  },
+  role: initialUser.role,
+  active: initialUser.active,
+})
 
 const areInitialValues = (formValues, initialUser) => {
   const { name, username, role, active } = formValues
