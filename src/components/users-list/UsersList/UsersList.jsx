@@ -11,7 +11,7 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
-  const [isView, setIsView] = useState(true)
+  const [isCardView, setIsCardView] = useState(true)
 
   const { filters, filtersSetters, paginationSetters, resetFilters } =
     useFilters()
@@ -29,12 +29,15 @@ const UsersList = () => {
           sort={filters.sort}
         />
         <UsersFormContainer />
-        <UsersListViewSelector isView={isView} setIsView={setIsView} />
+        <UsersListViewSelector
+          isCardView={isCardView}
+          setIsCardView={setIsCardView}
+        />
         <UsersListRows
           error={usersError}
           loading={usersLoading}
           users={users}
-          view={isView}
+          isCardView={isCardView}
         />
       </UserFormsProvider>
       <UsersListPagination

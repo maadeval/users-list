@@ -43,7 +43,7 @@ const getUsersURL = ({ page, usersPerPage, sort, active, search }) => {
   if (search) url.searchParams.append("name_like", search)
   if (active) url.searchParams.append("active", true)
 
-  const [_sort, _order] = SORT_MAPPER[sort]
+  const [_sort, _order] = SORT_MAPPER[sort] || []
 
   if (_sort) {
     url.searchParams.append("_sort", _sort)

@@ -3,7 +3,7 @@ import UserRow from "../UserRow"
 
 import style from "./UsersListRows.module.css"
 
-const UsersListRows = ({ users, error, loading, view }) => {
+const UsersListRows = ({ users, error, loading, isCardView }) => {
   if (loading) return <p>Cargando...</p>
   if (error) return <p>Error al encontrar los usuarios</p>
   if (users.length === 0) return <p>No hay resultados en la busqueda</p>
@@ -11,7 +11,7 @@ const UsersListRows = ({ users, error, loading, view }) => {
   return (
     <section className={style.wrapper}>
       {users.map(user =>
-        view ? (
+        isCardView ? (
           <UserCard {...user} key={user.id} />
         ) : (
           <UserRow {...user} key={user.id} />

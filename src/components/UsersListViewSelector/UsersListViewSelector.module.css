@@ -13,9 +13,21 @@
   background: none;
   border: none;
   outline: none;
+  color: var(--color-lightgray);
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:focus {
+  box-shadow: var(--shadow-sm);
 }
 
 .button:disabled {
+  color: var(--color-black);
   cursor: default;
 }
 
