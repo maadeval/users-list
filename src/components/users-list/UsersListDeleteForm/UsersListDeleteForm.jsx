@@ -1,18 +1,25 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { deleteUserById } from "../../../lib/services/deleteUserById"
 import Button from "../../Button/Button"
 
 import style from "./UsersListDeleteForm.module.css"
 
-const UsersListDeleteForm = ({ onSuccess, user, onClose }) => {
+const UsersListDeleteForm = () => {
+  const { onSuccess, setFiltersPanel, currentUser } =
+    useContext(UserFormsContext)
+
   const [isSubmiting, setIsSubmitting] = useState(false)
 
   return (
-    <form onSubmit={e => handleSubmit(e, user.id, setIsSubmitting, onSuccess)}>
+    <form
+      onSubmit={e =>
+        handleSubmit(e, currentUser.id, setIsSubmitting, onSuccess)
+      }>
       <div className={style.formRow}>
         <p>
           Segro quieres eliminar al usuario {'"'}
-          {user.name}
+          {currentUser.name}
           {'"'}?
         </p>
       </div>
@@ -21,7 +28,7 @@ const UsersListDeleteForm = ({ onSuccess, user, onClose }) => {
           variant={"secondary"}
           disabled={isSubmiting}
           type="button"
-          onClick={onClose}>
+          onClick={setFiltersPanel}>
           Cancelar
         </Button>
         <Button disabled={isSubmiting} type="submit">

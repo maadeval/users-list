@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ROLE_OPTIONS } from "../../../constants/sortUsersSelect"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useEditForm } from "../../../lib/hooks/useEditForm"
 import { updateUser } from "../../../lib/services/updateUser"
 import Button from "../../Button/Button"
@@ -10,8 +11,11 @@ import Select from "../../forms/Select/Select"
 
 import style from "./UsersListEditForm.module.css"
 
-const UsersListEditForm = ({ onSuccess, user }) => {
+const UsersListEditForm = () => {
+  const { onSuccess, currentUser } = useContext(UserFormsContext)
+
   const [isSubmiting, setIsSubmitting] = useState(false)
+
   const {
     active,
     isFormInvalid,
@@ -22,7 +26,7 @@ const UsersListEditForm = ({ onSuccess, user }) => {
     setRole,
     setUsername,
     username,
-  } = useEditForm(user)
+  } = useEditForm(currentUser)
 
   return (
     <form
@@ -30,7 +34,7 @@ const UsersListEditForm = ({ onSuccess, user }) => {
         handleSubmit(
           e,
           {
-            id: user.id,
+            id: currentUser.id,
             name: name.value,
             username: username.value,
             active,
@@ -54,7 +58,7 @@ const UsersListEditForm = ({ onSuccess, user }) => {
           success={
             !username.error &&
             !username.loading &&
-            user.username !== username.value
+            currentUser.username !== username.value
           }
           loading={username.loading}
           label="Username"

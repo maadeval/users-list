@@ -1,13 +1,8 @@
 import { useFilters } from "lib/hooks/useFilters"
-import { USERS_FORM_PANELS } from "../../../constants/usersFormsPanels"
-import { useFormsPanel } from "../../../lib/hooks/useFormsPanel"
+import { UserFormsProvider } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useUsers } from "../../../lib/hooks/useUser"
 import { usersToDisplay } from "../../../lib/users/filterUsers"
-import Button from "../../Button/Button"
-import UsersFormLayout from "../UsersFormLayout/UsersFormLayout"
-import UsersListCreateForm from "../UsersListCreateForm/UsersListCreateForm"
-import UsersListDeleteForm from "../UsersListDeleteForm/UsersListDeleteForm"
-import UsersListEditForm from "../UsersListEditForm"
+import UsersFormContainer from "../UsersFormContainer/UsersFormContainer"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
 import UsersListRows from "../UsersListRows"
@@ -15,15 +10,6 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
-  const {
-    currentFormPanel,
-    currentUser,
-    setCreatePanel,
-    setFiltersPanel,
-    setDeletePanel,
-    setEditPanel,
-  } = useFormsPanel()
-
   const {
     filters,
     pagination,
@@ -40,45 +26,18 @@ const UsersList = () => {
     pagination
   )
 
-  const onSuccess = () => {
-    reloadUsers()
-    resetFilters()
-    setFiltersPanel()
-  }
-
   return (
     <section className={style.layout}>
       <h1 className={style.title}>Lista de usuarios</h1>
-      {currentFormPanel === USERS_FORM_PANELS.FILTERS ? (
-        <UsersListFilters
-          {...filters}
-          {...filtersSetters}
-          slot={<Button onClick={setCreatePanel}>Agregar Usuario</Button>}
+      <UserFormsProvider resetFilters={resetFilters} reloadUsers={reloadUsers}>
+        <UsersListFilters {...filters} {...filtersSetters} />
+        <UsersFormContainer />
+        <UsersListRows
+          users={filteredUsers}
+          error={usersError}
+          loading={usersLoading}
         />
-      ) : (
-        <UsersFormLayout onClose={setFiltersPanel}>
-          {currentFormPanel === USERS_FORM_PANELS.CREATE && (
-            <UsersListCreateForm onSuccess={onSuccess} />
-          )}
-          {currentFormPanel === USERS_FORM_PANELS.EDIT && (
-            <UsersListEditForm onSuccess={onSuccess} user={currentUser} />
-          )}
-          {currentFormPanel === USERS_FORM_PANELS.DELETE && (
-            <UsersListDeleteForm
-              onSuccess={onSuccess}
-              user={currentUser}
-              onClose={setFiltersPanel}
-            />
-          )}
-        </UsersFormLayout>
-      )}
-      <UsersListRows
-        users={filteredUsers}
-        error={usersError}
-        loading={usersLoading}
-        setDeletePanel={setDeletePanel}
-        setEditPanel={setEditPanel}
-      />
+      </UserFormsProvider>
       <UsersListPagination
         {...pagination}
         {...paginationSetters}

@@ -1,7 +1,11 @@
+import { useContext } from "react"
 import {
   OPTIONS_SELECT,
   SORT_OPTIONS,
 } from "../../../constants/sortUsersSelect"
+import { USERS_FORM_PANELS } from "../../../constants/usersFormsPanels"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
+import Button from "../../Button/Button"
 import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
 import InputSearch from "../../forms/InputSearch"
 import Select from "../../forms/Select/Select"
@@ -15,8 +19,11 @@ const UsersListFilters = ({
   setActive,
   sort,
   setSort,
-  slot,
 }) => {
+  const { setCreatePanel, currentFormPanel } = useContext(UserFormsContext)
+
+  if (currentFormPanel !== USERS_FORM_PANELS.FILTERS) return null
+
   return (
     <div className={style.wrapper}>
       <div className={style.row}>
@@ -50,7 +57,7 @@ const UsersListFilters = ({
             Mostrar solo activos
           </label>
         </div>
-        {slot}
+        <Button onClick={setCreatePanel}>Agregar Usuario</Button>
       </div>
     </div>
   )

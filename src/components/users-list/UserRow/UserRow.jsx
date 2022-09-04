@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import ButtonIcon from "../../ButtonIcon"
 import DisplayName from "../../DisplayName/DisplayName"
 import PencilIcon from "../../icons/PencilIcon/PencilIcon"
@@ -7,16 +9,9 @@ import UserStatus from "../UserStatus"
 
 import style from "./UserRow.module.css"
 
-const UserRow = ({
-  id,
-  username,
-  role,
-  active,
-  name,
-  avatar,
-  setDeletePanel,
-  setEditPanel,
-}) => {
+const UserRow = ({ id, username, role, active, name, avatar }) => {
+  const { setEditPanel, setDeletePanel } = useContext(UserFormsContext)
+
   return (
     <article className={style.row} key={username}>
       <DisplayName avatar={avatar} name={name} username={username} />

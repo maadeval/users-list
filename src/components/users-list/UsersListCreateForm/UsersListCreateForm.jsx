@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ROLE_OPTIONS } from "../../../constants/sortUsersSelect"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useCreateForm } from "../../../lib/hooks/useCreateForm"
 import { createUser } from "../../../lib/services/createUsers"
 import Button from "../../Button/Button"
@@ -10,8 +11,11 @@ import Select from "../../forms/Select/Select"
 
 import style from "./UsersListCreateForm.module.css"
 
-const UsersListCreateForm = ({ onSuccess }) => {
+const UsersListCreateForm = () => {
+  const { onSuccess } = useContext(UserFormsContext)
+
   const [isSubmiting, setIsSubmitting] = useState(false)
+
   const { name, username, setName, setUsername, isFormInvalid } =
     useCreateForm()
 
