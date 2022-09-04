@@ -41,11 +41,8 @@ export const useUsers = filters => {
   }
 }
 
-const loadUsers = async (setData, setError, signal, { page, usersPerPage }) => {
-  const { users, aborted, count } = await getUsers(signal, {
-    page,
-    usersPerPage,
-  })
+const loadUsers = async (setData, setError, signal, filters) => {
+  const { users, aborted, count } = await getUsers(signal, filters)
 
   if (aborted) return
   if (users) setData(users, count)
