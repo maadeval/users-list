@@ -1,7 +1,9 @@
 import { useFilters } from "lib/hooks/useFilters"
+import { useState } from "react"
 import { UserFormsProvider } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useUsers } from "../../../lib/hooks/useUser"
 import { usersToDisplay } from "../../../lib/users/filterUsers"
+import UsersListViewSelector from "../../UsersListViewSelector/UsersListViewSelector"
 import UsersFormContainer from "../UsersFormContainer/UsersFormContainer"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
@@ -10,6 +12,8 @@ import UsersListRows from "../UsersListRows"
 import style from "./UserList.module.css"
 
 const UsersList = () => {
+  const [isView, setIsView] = useState(true)
+
   const {
     filters,
     pagination,
@@ -32,10 +36,12 @@ const UsersList = () => {
       <UserFormsProvider resetFilters={resetFilters} reloadUsers={reloadUsers}>
         <UsersListFilters {...filters} {...filtersSetters} />
         <UsersFormContainer />
+        <UsersListViewSelector isView={isView} setIsView={setIsView} />
         <UsersListRows
           users={filteredUsers}
           error={usersError}
           loading={usersLoading}
+          view={isView}
         />
       </UserFormsProvider>
       <UsersListPagination
