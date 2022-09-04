@@ -3,7 +3,7 @@ import { useFormsPanel } from "../../hooks/useFormsPanel"
 
 export const UserFormsContext = createContext()
 
-export const UserFormsProvider = ({ children, reloadUsers, resetFilters }) => {
+export const UserFormsProvider = ({ children, resetFilters }) => {
   const {
     currentFormPanel,
     currentUser,
@@ -14,7 +14,6 @@ export const UserFormsProvider = ({ children, reloadUsers, resetFilters }) => {
   } = useFormsPanel()
 
   const onSuccess = () => {
-    reloadUsers()
     resetFilters()
     setFiltersPanel()
   }

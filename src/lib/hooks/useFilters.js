@@ -32,20 +32,10 @@ export const useFilters = () => {
     setFilters({ ...filters, page: PAGE_VALUES.PAGE, usersPerPage: value })
   }
 
-  const resetFilters = () => setFilters(INITIAL_STATE)
-
-  const { active, page, search, sort, usersPerPage } = filters
+  const resetFilters = () => setFilters({ ...INITIAL_STATE })
 
   return {
-    filters: {
-      active,
-      search,
-      sort,
-    },
-    pagination: {
-      page,
-      usersPerPage,
-    },
+    filters,
     filtersSetters: {
       setActive,
       setSearch,

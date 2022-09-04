@@ -57,24 +57,3 @@ export const paginationUsers = (users, page, usersPerPage) => {
     totalPages,
   }
 }
-
-export const usersToDisplay = (
-  users,
-  { active, search, sort },
-  { page, usersPerPage }
-) => {
-  let filteredUsers = filterActiveUsers(users, active)
-  filteredUsers = filterUsersByName(filteredUsers, search)
-  filteredUsers = sortUsers(filteredUsers, sort)
-
-  const { listUsersPerPage, totalPages } = paginationUsers(
-    filteredUsers,
-    page,
-    usersPerPage
-  )
-
-  return {
-    filteredUsers: listUsersPerPage,
-    totalPages,
-  }
-}

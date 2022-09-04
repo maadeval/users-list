@@ -2,7 +2,6 @@ import { useFilters } from "lib/hooks/useFilters"
 import { useState } from "react"
 import { UserFormsProvider } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useUsers } from "../../../lib/hooks/useUser"
-import { usersToDisplay } from "../../../lib/users/filterUsers"
 import UsersListViewSelector from "../../UsersListViewSelector/UsersListViewSelector"
 import UsersFormContainer from "../UsersFormContainer/UsersFormContainer"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
@@ -14,40 +13,35 @@ import style from "./UserList.module.css"
 const UsersList = () => {
   const [isView, setIsView] = useState(true)
 
-  const {
-    filters,
-    pagination,
-    filtersSetters,
-    paginationSetters,
-    resetFilters,
-  } = useFilters()
+  const { filters, filtersSetters, paginationSetters, resetFilters } =
+    useFilters()
 
-  const { users, usersError, usersLoading, reloadUsers } = useUsers()
-
-  const { filteredUsers, totalPages } = usersToDisplay(
-    users,
-    filters,
-    pagination
-  )
+  const { users, usersError, usersLoading, totalUsers } = useUsers(filters)
 
   return (
     <section className={style.layout}>
       <h1 className={style.title}>Lista de usuarios</h1>
-      <UserFormsProvider resetFilters={resetFilters} reloadUsers={reloadUsers}>
-        <UsersListFilters {...filters} {...filtersSetters} />
+      <UserFormsProvider resetFilters={resetFilters}>
+        <UsersListFilters
+          {...filtersSetters}
+          active={filters.active}
+          search={filters.search}
+          sort={filters.sort}
+        />
         <UsersFormContainer />
         <UsersListViewSelector isView={isView} setIsView={setIsView} />
         <UsersListRows
-          users={filteredUsers}
           error={usersError}
           loading={usersLoading}
+          users={users}
           view={isView}
         />
       </UserFormsProvider>
       <UsersListPagination
-        {...pagination}
         {...paginationSetters}
-        totalPages={totalPages}
+        page={filters.page}
+        totalUsers={totalUsers}
+        usersPerPage={filters.usersPerPage}
       />
     </section>
   )

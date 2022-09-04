@@ -8,7 +8,7 @@ const UsersListPagination = ({
   usersPerPage,
   setPage,
   setUsersPerPage,
-  totalPages,
+  totalUsers,
 }) => {
   return (
     <div className={style.wrapper}>
@@ -25,7 +25,7 @@ const UsersListPagination = ({
       <PageSelector
         currentPage={page}
         setPage={setPage}
-        totalPages={totalPages}
+        totalPages={Math.ceil(totalUsers / usersPerPage)}
       />
     </div>
   )
