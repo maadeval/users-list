@@ -8,7 +8,7 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "standard",
-    "eslint-config-prettier",
+    "prettier",
   ],
   settings: {
     react: {
