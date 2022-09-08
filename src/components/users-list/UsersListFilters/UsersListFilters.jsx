@@ -12,14 +12,7 @@ import Select from "../../forms/Select/Select"
 
 import style from "./UsersListFilters.module.css"
 
-const UsersListFilters = ({
-  search,
-  setSearch,
-  active,
-  setActive,
-  sort,
-  setSort,
-}) => {
+const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
   const { setCreatePanel, currentFormPanel } = useContext(UserFormsContext)
 
   if (currentFormPanel !== USERS_FORM_PANELS.FILTERS) return null
@@ -30,9 +23,18 @@ const UsersListFilters = ({
         <InputSearch
           placeholder="Buscar..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e =>
+            dispatchFilters({ type: "search_changed", value: e.target.value })
+          }
         />
-        <Select value={sort} onChange={e => setSort(e.target.value)}>
+        <Select
+          value={sort}
+          onChange={e =>
+            dispatchFilters({
+              type: "sort_changed",
+              value: Number(e.target.value),
+            })
+          }>
           {OPTIONS_SELECT.map(option => {
             const hasActiveByFilterAndBySort =
               active && option.value === SORT_OPTIONS.ACTIVE
@@ -51,7 +53,12 @@ const UsersListFilters = ({
             type="checkbox"
             id="active-selector"
             value={active}
-            onChange={e => setActive(e.target.checked)}
+            onChange={e =>
+              dispatchFilters({
+                type: "active_changed",
+                value: e.target.checked,
+              })
+            }
           />
           <label htmlFor="active-selector" className={style.label}>
             Mostrar solo activos

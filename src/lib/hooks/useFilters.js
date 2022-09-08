@@ -1,6 +1,15 @@
-import { useState } from "react"
+import { useReducer } from "react"
 import { PAGE_VALUES } from "../../constants/pageSelectors"
 import { SORT_OPTIONS } from "../../constants/sortUsersSelect"
+
+export const useFilters = () => {
+  const [filters, dispatchFilters] = useReducer(filtersReducer, INITIAL_STATE)
+
+  return {
+    filters,
+    dispatchFilters,
+  }
+}
 
 const INITIAL_STATE = {
   search: "",
@@ -10,41 +19,27 @@ const INITIAL_STATE = {
   usersPerPage: PAGE_VALUES.USERS_PER_PAGE,
 }
 
-export const useFilters = () => {
-  const [filters, setFilters] = useState(INITIAL_STATE)
-
-  const setSearch = value => {
-    setFilters({ ...filters, page: PAGE_VALUES.PAGE, search: value })
-  }
-  const setActive = value => {
-    setFilters({ ...filters, page: PAGE_VALUES.PAGE, active: value })
-  }
-
-  const setSort = value => {
-    setFilters({ ...filters, page: PAGE_VALUES.PAGE, sort: value })
-  }
-
-  const setPage = value => {
-    setFilters({ ...filters, page: value })
-  }
-
-  const setUsersPerPage = value => {
-    setFilters({ ...filters, page: PAGE_VALUES.PAGE, usersPerPage: value })
-  }
-
-  const resetFilters = () => setFilters({ ...INITIAL_STATE })
-
-  return {
-    filters,
-    filtersSetters: {
-      setActive,
-      setSearch,
-      setSort,
-    },
-    paginationSetters: {
-      setPage,
-      setUsersPerPage,
-    },
-    resetFilters,
+const filtersReducer = (state, action) => {
+  switch (action.type) {
+    case "search_changed":
+      return {
+        ...state,
+        page: PAGE_VALUES.PAGE,
+        search: action.value,
+      }
+    case "active_changed":
+      return { ...state, page: PAGE_VALUES.PAGE, active: action.value }
+    case "sort_changed":
+      return { ...state, page: PAGE_VALUES.PAGE, sort: action.value }
+    case "page_changed":
+      return { ...state, page: action.value }
+    case "users_per_page_changed":
+      return { ...state, page: PAGE_VALUES.PAGE, usersPerPage: action.value }
+    case "reset":
+      return {
+        ...INITIAL_STATE,
+      }
+    default:
+      throw new Error("Invalid action type")
   }
 }

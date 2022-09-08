@@ -7,16 +7,20 @@ import style from "./UsersListPagination.module.css"
 const UsersListPagination = ({
   page,
   usersPerPage,
-  setPage,
-  setUsersPerPage,
   totalUsers,
+  dispatchFilters,
 }) => {
   return (
     <div className={style.wrapper}>
       <div className={style.selectorPage}>
         <Select
           value={usersPerPage}
-          onChange={e => setUsersPerPage(Number(e.target.value))}>
+          onChange={e =>
+            dispatchFilters({
+              type: "users_per_page_changed",
+              value: Number(e.target.value),
+            })
+          }>
           {PAGE_VALUES.USERS_PER_PAGE_OPTIONS.map(pageValue => (
             <option key={pageValue} value={pageValue}>
               {pageValue}
@@ -27,7 +31,9 @@ const UsersListPagination = ({
       </div>
       <PageSelector
         currentPage={page}
-        setPage={setPage}
+        setPage={newPage =>
+          dispatchFilters({ type: "page_changed", value: newPage })
+        }
         totalPages={Math.ceil(totalUsers / usersPerPage)}
       />
     </div>

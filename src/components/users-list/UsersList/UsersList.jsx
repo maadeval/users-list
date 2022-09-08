@@ -13,17 +13,16 @@ import style from "./UserList.module.css"
 const UsersList = () => {
   const [isCardView, setIsCardView] = useState(true)
 
-  const { filters, filtersSetters, paginationSetters, resetFilters } =
-    useFilters()
+  const { filters, dispatchFilters } = useFilters()
 
   const { users, usersError, usersLoading, totalUsers } = useUsers(filters)
 
   return (
     <section className={style.layout}>
       <h1 className={style.title}>Lista de usuarios</h1>
-      <UserFormsProvider resetFilters={resetFilters}>
+      <UserFormsProvider dispatchFilters={dispatchFilters}>
         <UsersListFilters
-          {...filtersSetters}
+          dispatchFilters={dispatchFilters}
           active={filters.active}
           search={filters.search}
           sort={filters.sort}
@@ -41,7 +40,7 @@ const UsersList = () => {
         />
       </UserFormsProvider>
       <UsersListPagination
-        {...paginationSetters}
+        dispatchFilters={dispatchFilters}
         page={filters.page}
         totalUsers={totalUsers}
         usersPerPage={filters.usersPerPage}
