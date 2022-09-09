@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer } from "react"
 import {
   validateName,
   validateUsername,
@@ -6,59 +6,17 @@ import {
 } from "../users/validateUser"
 
 export const useCreateForm = () => {
-  const [formValues, setFormValues] = useState({
-    name: {
-      value: "",
-      error: undefined,
-    },
-    username: {
-      value: "",
-      error: undefined,
-      loading: false,
-    },
-  })
-
-  const setName = name => {
-    const error = validateName(name)
-
-    setFormValues(lastValues => ({
-      ...lastValues,
-      name: {
-        value: name,
-        error,
-      },
-    }))
-  }
-
-  const setUsername = username => {
-    const error = validateUsername(username)
-
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        value: username,
-        error,
-        loading: !error,
-      },
-    }))
-  }
-
-  const setUsernameError = error =>
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        ...lastValues.username,
-        error,
-        loading: false,
-      },
-    }))
+  const [formValues, dispatchFormValues] = useReducer(
+    formValuesReducer,
+    initialState
+  )
 
   useEffect(() => {
     if (!formValues.username.loading) return
 
     const controller = new AbortController()
     const timer = setTimeout(() => {
-      validateUsernameAsync(formValues.username.value, setUsernameError, {
+      validateUsernameAsync(formValues.username.value, dispatchFormValues, {
         signal: controller.signal,
       })
     }, 500)
@@ -78,8 +36,58 @@ export const useCreateForm = () => {
 
   return {
     ...formValues,
-    setName,
-    setUsername,
+    dispatchFormValues,
     isFormInvalid,
+  }
+}
+
+const initialState = {
+  name: {
+    value: "",
+    error: undefined,
+  },
+  username: {
+    value: "",
+    error: undefined,
+    loading: false,
+  },
+}
+
+const formValuesReducer = (state, action) => {
+  switch (action.type) {
+    case "name_changed": {
+      const error = validateName(action.value)
+
+      return {
+        ...state,
+        name: {
+          value: action.value,
+          error,
+        },
+      }
+    }
+    case "username_changed": {
+      const error = validateUsername(action.value)
+
+      return {
+        ...state,
+        username: {
+          value: action.value,
+          error,
+          loading: !error,
+        },
+      }
+    }
+    case "username_error_changed":
+      return {
+        ...state,
+        username: {
+          ...state.username,
+          error: action.value,
+          loading: false,
+        },
+      }
+    default:
+      throw new Error("Invalid action type")
   }
 }

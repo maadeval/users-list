@@ -16,17 +16,8 @@ const UsersListEditForm = () => {
 
   const [isSubmiting, setIsSubmitting] = useState(false)
 
-  const {
-    active,
-    isFormInvalid,
-    name,
-    role,
-    setActive,
-    setName,
-    setRole,
-    setUsername,
-    username,
-  } = useEditForm(currentUser)
+  const { active, isFormInvalid, name, role, dispatchFormValues, username } =
+    useEditForm(currentUser)
 
   return (
     <form
@@ -49,7 +40,9 @@ const UsersListEditForm = () => {
           className={style.input}
           error={name.error}
           label="Nombre"
-          onChange={e => setName(e.target.value)}
+          onChange={e =>
+            dispatchFormValues({ type: "name_changed", value: e.target.value })
+          }
           value={name.value}
         />
         <InputTextAsync
@@ -62,14 +55,21 @@ const UsersListEditForm = () => {
           }
           loading={username.loading}
           label="Username"
-          onChange={e => setUsername(e.target.value)}
+          onChange={e =>
+            dispatchFormValues({
+              type: "username_changed",
+              value: e.target.value,
+            })
+          }
           value={username.value}
         />
       </div>
       <div className={style.formRow}>
         <Select
           value={role}
-          onChange={ev => setRole(ev.target.value)}
+          onChange={ev =>
+            dispatchFormValues({ type: "role_changed", value: ev.target.value })
+          }
           name="role">
           <option value={ROLE_OPTIONS.TEACHER}>Profesor</option>
           <option value={ROLE_OPTIONS.STUDENT}>Alumno</option>
@@ -78,7 +78,12 @@ const UsersListEditForm = () => {
         <label className={style.checkbox}>
           <InputCheckbox
             checked={active}
-            onChange={ev => setActive(ev.target.checked)}
+            onChange={ev =>
+              dispatchFormValues({
+                type: "active_changed",
+                value: ev.target.checked,
+              })
+            }
             name="active"
           />
           <span>Activo?</span>

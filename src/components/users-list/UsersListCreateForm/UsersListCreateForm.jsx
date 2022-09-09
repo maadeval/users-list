@@ -16,8 +16,7 @@ const UsersListCreateForm = () => {
 
   const [isSubmiting, setIsSubmitting] = useState(false)
 
-  const { name, username, setName, setUsername, isFormInvalid } =
-    useCreateForm()
+  const { name, username, dispatchFormValues, isFormInvalid } = useCreateForm()
 
   return (
     <form
@@ -29,7 +28,9 @@ const UsersListCreateForm = () => {
           className={style.input}
           error={name.error}
           label="Nombre"
-          onChange={e => setName(e.target.value)}
+          onChange={e =>
+            dispatchFormValues({ type: "name_changed", value: e.target.value })
+          }
           value={name.value}
         />
         <InputTextAsync
@@ -38,7 +39,12 @@ const UsersListCreateForm = () => {
           success={username.value && !username.error && !username.loading}
           loading={username.loading}
           label="Username"
-          onChange={e => setUsername(e.target.value)}
+          onChange={e =>
+            dispatchFormValues({
+              type: "username_changed",
+              value: e.target.value,
+            })
+          }
           value={username.value}
         />
       </div>

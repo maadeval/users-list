@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer } from "react"
 import {
   validateName,
   validateUsername,
@@ -6,60 +6,14 @@ import {
 } from "../users/validateUser"
 
 export const useEditForm = initialUser => {
-  const [formValues, setFormValues] = useState(() =>
-    getInitialState(initialUser)
+  const [formValues, dispatchFormValues] = useReducer(
+    formValuesReducer,
+    initialUser,
+    getInitialState
   )
 
-  const setName = name => {
-    const error = validateName(name)
-
-    setFormValues(lastValues => ({
-      ...lastValues,
-      name: {
-        value: name,
-        error,
-      },
-    }))
-  }
-
-  const setUsername = username => {
-    const error = validateUsername(username)
-    const isInitialUser = username === initialUser.username
-
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        value: username,
-        error,
-        loading: !error && !isInitialUser,
-      },
-    }))
-  }
-
-  const setUsernameError = error =>
-    setFormValues(lastValues => ({
-      ...lastValues,
-      username: {
-        ...lastValues.username,
-        error,
-        loading: false,
-      },
-    }))
-
-  const setActive = active =>
-    setFormValues(lastState => ({
-      ...lastState,
-      active,
-    }))
-
-  const setRole = role =>
-    setFormValues(lastState => ({
-      ...lastState,
-      role,
-    }))
-
   useEffect(() => {
-    setFormValues(getInitialState(initialUser))
+    dispatchFormValues({ type: "replace", value: getInitialState(initialUser) })
   }, [initialUser])
 
   useEffect(() => {
@@ -67,7 +21,7 @@ export const useEditForm = initialUser => {
 
     const controller = new AbortController()
     const timer = setTimeout(() => {
-      validateUsernameAsync(formValues.username.value, setUsernameError, {
+      validateUsernameAsync(formValues.username.value, dispatchFormValues, {
         signal: controller.signal,
       })
     }, 500)
@@ -88,11 +42,8 @@ export const useEditForm = initialUser => {
 
   return {
     ...formValues,
-    setName,
-    setUsername,
     isFormInvalid,
-    setActive,
-    setRole,
+    dispatchFormValues,
   }
 }
 
@@ -119,4 +70,56 @@ const areInitialValues = (formValues, initialUser) => {
     role === initialUser.role &&
     active === initialUser.active
   )
+}
+
+const formValuesReducer = (state, action) => {
+  switch (action.type) {
+    case "name_changed": {
+      const error = validateName(action.value)
+
+      return {
+        ...state,
+        name: {
+          value: action.value,
+          error,
+        },
+      }
+    }
+    case "username_changed": {
+      const error = validateUsername(action.value)
+      const isInitialUser = action.value === state.username
+
+      return {
+        ...state,
+        username: {
+          value: action.value,
+          error,
+          loading: !error && !isInitialUser,
+        },
+      }
+    }
+    case "username_error_changed":
+      return {
+        ...state,
+        username: {
+          ...state.username,
+          error: action.value,
+          loading: false,
+        },
+      }
+    case "active_changed":
+      return {
+        ...state,
+        active: action.value,
+      }
+    case "role_changed":
+      return {
+        ...state,
+        role: action.value,
+      }
+    case "replace":
+      return action.value
+    default:
+      throw new Error('Invalid action type: "' + action.type + '"')
+  }
 }

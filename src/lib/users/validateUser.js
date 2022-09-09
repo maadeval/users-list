@@ -47,7 +47,7 @@ export const validateUsername = username => {
 
 export const validateUsernameAsync = async (
   username,
-  setUsernameError,
+  dispatchFormValues,
   { signal }
 ) => {
   const { user, aborted, error } = await findUserByUsername(username, signal)
@@ -59,5 +59,5 @@ export const validateUsernameAsync = async (
   if (error) errorMessage = "Error al validar"
   else if (user) errorMessage = "Ya existe un usuario con ese nombre"
 
-  setUsernameError(errorMessage)
+  dispatchFormValues({ type: "username_error_changed", value: errorMessage })
 }
