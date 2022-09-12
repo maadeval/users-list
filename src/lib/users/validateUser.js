@@ -1,3 +1,4 @@
+import { usernameErrorChanged } from "../actions/editFormActions"
 import { findUserByUsername } from "../services/findUserByUsername"
 
 const REGEX = {
@@ -59,5 +60,5 @@ export const validateUsernameAsync = async (
   if (error) errorMessage = "Error al validar"
   else if (user) errorMessage = "Ya existe un usuario con ese nombre"
 
-  dispatchFormValues({ type: "username_error_changed", value: errorMessage })
+  dispatchFormValues(usernameErrorChanged(errorMessage))
 }

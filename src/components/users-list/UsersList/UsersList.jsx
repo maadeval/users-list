@@ -1,7 +1,10 @@
-import { useFilters } from "lib/hooks/useFilters"
-import { useState } from "react"
+import { useReducer, useState } from "react"
 import { UserFormsProvider } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useUsers } from "../../../lib/hooks/useUser"
+import {
+  filtersReducer,
+  FILTERS_INITIAL_STATE,
+} from "../../../lib/reducers/filtersReducer"
 import UsersListViewSelector from "../../UsersListViewSelector/UsersListViewSelector"
 import UsersFormContainer from "../UsersFormContainer/UsersFormContainer"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
@@ -13,7 +16,10 @@ import style from "./UserList.module.css"
 const UsersList = () => {
   const [isCardView, setIsCardView] = useState(true)
 
-  const { filters, dispatchFilters } = useFilters()
+  const [filters, dispatchFilters] = useReducer(
+    filtersReducer,
+    FILTERS_INITIAL_STATE
+  )
 
   const { users, usersError, usersLoading, totalUsers } = useUsers(filters)
 

@@ -4,6 +4,11 @@ import {
   SORT_OPTIONS,
 } from "../../../constants/sortUsersSelect"
 import { USERS_FORM_PANELS } from "../../../constants/usersFormsPanels"
+import {
+  activeChanged,
+  searchChanged,
+  sortByChanged,
+} from "../../../lib/actions/filtersActions"
 import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import Button from "../../Button/Button"
 import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
@@ -23,18 +28,11 @@ const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
         <InputSearch
           placeholder="Buscar..."
           value={search}
-          onChange={e =>
-            dispatchFilters({ type: "search_changed", value: e.target.value })
-          }
+          onChange={ev => dispatchFilters(searchChanged(ev.target.value))}
         />
         <Select
           value={sort}
-          onChange={e =>
-            dispatchFilters({
-              type: "sort_changed",
-              value: Number(e.target.value),
-            })
-          }>
+          onChange={ev => dispatchFilters(sortByChanged(ev.target.value))}>
           {OPTIONS_SELECT.map(option => {
             const hasActiveByFilterAndBySort =
               active && option.value === SORT_OPTIONS.ACTIVE
@@ -53,12 +51,7 @@ const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
             type="checkbox"
             id="active-selector"
             value={active}
-            onChange={e =>
-              dispatchFilters({
-                type: "active_changed",
-                value: e.target.checked,
-              })
-            }
+            onChange={e => dispatchFilters(activeChanged(e.target.checked))}
           />
           <label htmlFor="active-selector" className={style.label}>
             Mostrar solo activos

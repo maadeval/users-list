@@ -1,4 +1,8 @@
 import { PAGE_VALUES } from "../../../constants/pageSelectors"
+import {
+  pageChanged,
+  usersPerPageChanged,
+} from "../../../lib/actions/filtersActions"
 import Select from "../../forms/Select/Select"
 import PageSelector from "../../PageSelector/PageSelector"
 
@@ -16,10 +20,7 @@ const UsersListPagination = ({
         <Select
           value={usersPerPage}
           onChange={e =>
-            dispatchFilters({
-              type: "users_per_page_changed",
-              value: Number(e.target.value),
-            })
+            dispatchFilters(usersPerPageChanged(Number(e.target.value)))
           }>
           {PAGE_VALUES.USERS_PER_PAGE_OPTIONS.map(pageValue => (
             <option key={pageValue} value={pageValue}>
@@ -31,9 +32,7 @@ const UsersListPagination = ({
       </div>
       <PageSelector
         currentPage={page}
-        setPage={newPage =>
-          dispatchFilters({ type: "page_changed", value: newPage })
-        }
+        setPage={newPage => dispatchFilters(pageChanged(newPage))}
         totalPages={Math.ceil(totalUsers / usersPerPage)}
       />
     </div>

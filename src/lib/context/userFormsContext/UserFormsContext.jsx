@@ -1,4 +1,5 @@
 import { createContext } from "react"
+import { resetChanged } from "../../actions/filtersActions"
 import { useFormsPanel } from "../../hooks/useFormsPanel"
 
 export const UserFormsContext = createContext()
@@ -14,7 +15,7 @@ export const UserFormsProvider = ({ children, dispatchFilters }) => {
   } = useFormsPanel()
 
   const onSuccess = () => {
-    dispatchFilters({ type: "reset" })
+    dispatchFilters(resetChanged())
     setFiltersPanel()
   }
 

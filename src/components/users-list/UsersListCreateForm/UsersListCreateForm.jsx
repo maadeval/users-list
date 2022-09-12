@@ -1,5 +1,9 @@
 import { useContext, useState } from "react"
 import { ROLE_OPTIONS } from "../../../constants/sortUsersSelect"
+import {
+  formValuesNameChanged,
+  formValuesUsernameChanged,
+} from "../../../lib/actions/formValuesActions"
 import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useCreateForm } from "../../../lib/hooks/useCreateForm"
 import { createUser } from "../../../lib/services/createUsers"
@@ -28,8 +32,8 @@ const UsersListCreateForm = () => {
           className={style.input}
           error={name.error}
           label="Nombre"
-          onChange={e =>
-            dispatchFormValues({ type: "name_changed", value: e.target.value })
+          onChange={ev =>
+            dispatchFormValues(formValuesNameChanged(ev.target.value))
           }
           value={name.value}
         />
@@ -39,11 +43,8 @@ const UsersListCreateForm = () => {
           success={username.value && !username.error && !username.loading}
           loading={username.loading}
           label="Username"
-          onChange={e =>
-            dispatchFormValues({
-              type: "username_changed",
-              value: e.target.value,
-            })
+          onChange={ev =>
+            dispatchFormValues(formValuesUsernameChanged(ev.target.value))
           }
           value={username.value}
         />

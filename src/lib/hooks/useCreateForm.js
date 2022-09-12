@@ -1,14 +1,14 @@
 import { useEffect, useReducer } from "react"
 import {
-  validateName,
-  validateUsername,
-  validateUsernameAsync,
-} from "../users/validateUser"
+  formValuesReducer,
+  FORM_VALUES_INITIAL_STATE,
+} from "../reducers/formValuesReducer"
+import { validateUsernameAsync } from "../users/validateUser"
 
 export const useCreateForm = () => {
   const [formValues, dispatchFormValues] = useReducer(
     formValuesReducer,
-    initialState
+    FORM_VALUES_INITIAL_STATE
   )
 
   useEffect(() => {
@@ -38,56 +38,5 @@ export const useCreateForm = () => {
     ...formValues,
     dispatchFormValues,
     isFormInvalid,
-  }
-}
-
-const initialState = {
-  name: {
-    value: "",
-    error: undefined,
-  },
-  username: {
-    value: "",
-    error: undefined,
-    loading: false,
-  },
-}
-
-const formValuesReducer = (state, action) => {
-  switch (action.type) {
-    case "name_changed": {
-      const error = validateName(action.value)
-
-      return {
-        ...state,
-        name: {
-          value: action.value,
-          error,
-        },
-      }
-    }
-    case "username_changed": {
-      const error = validateUsername(action.value)
-
-      return {
-        ...state,
-        username: {
-          value: action.value,
-          error,
-          loading: !error,
-        },
-      }
-    }
-    case "username_error_changed":
-      return {
-        ...state,
-        username: {
-          ...state.username,
-          error: action.value,
-          loading: false,
-        },
-      }
-    default:
-      throw new Error("Invalid action type")
   }
 }
