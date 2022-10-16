@@ -1,7 +1,11 @@
-import UsersList from "./components/users-list/UsersList"
+import UsersList from "./components/users-list/UsersList/UsersList"
 
 const App = () => {
-  return <UsersList />
+  return (
+    <>
+      <UsersList />
+    </>
+  )
 }
 
 export default App
