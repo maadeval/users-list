@@ -17,8 +17,8 @@ import Select from "../../forms/Select/Select"
 
 import style from "./UsersListEditForm.module.css"
 
-const UsersListEditForm = () => {
-  const { onSuccess, currentUser } = useContext(UserFormsContext)
+const UsersListEditForm = ({ currentUser, closeModal }) => {
+  const { onSuccess } = useContext(UserFormsContext)
 
   const [isSubmiting, setIsSubmitting] = useState(false)
 
@@ -44,7 +44,8 @@ const UsersListEditForm = () => {
             role,
           },
           setIsSubmitting,
-          onSuccess
+          onSuccess,
+          closeModal
         )
       }>
       <div className={style.formRow}>
@@ -98,15 +99,23 @@ const UsersListEditForm = () => {
   )
 }
 
-const handleSubmit = async (ev, user, setIsSubmitting, onSuccess) => {
+const handleSubmit = async (
+  ev,
+  user,
+  setIsSubmitting,
+  onSuccess,
+  closeModal
+) => {
   ev.preventDefault()
 
   setIsSubmitting(true)
 
   const { success } = await updateUser(user)
 
-  if (success) onSuccess()
-  else setIsSubmitting(false)
+  if (!success) return setIsSubmitting(false)
+
+  onSuccess()
+  closeModal()
 }
 
 export default UsersListEditForm

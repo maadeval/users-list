@@ -1,34 +1,53 @@
-import { useContext } from "react"
-import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
+import { useState } from "react"
 import ButtonIcon from "../../ButtonIcon"
 import DisplayName from "../../DisplayName/DisplayName"
 import PencilIcon from "../../icons/PencilIcon/PencilIcon"
 import TrashIcon from "../../icons/TrashIcon/TrashIcon"
+import Modal from "../../Modal/Modal"
 import UserRole from "../UserRole"
+import UsersListDeleteForm from "../UsersListDeleteForm/UsersListDeleteForm"
+import UsersListEditForm from "../UsersListEditForm"
 import UserStatus from "../UserStatus"
 
 import style from "./UserRow.module.css"
 
 const UserRow = ({ id, username, role, active, name, avatar }) => {
-  const { setEditPanel, setDeletePanel } = useContext(UserFormsContext)
+  const [modalContent, setModalContent] = useState()
 
   return (
-    <article className={style.row} key={username}>
-      <DisplayName avatar={avatar} name={name} username={username} />
-      <UserStatus status={active} />
-      <UserRole role={role} />
-      <div className={style.buttonWrapper}>
-        <ButtonIcon
-          icon={PencilIcon}
-          onClick={() => setEditPanel({ id, name, username, role, active })}
-        />
-        <ButtonIcon
-          icon={TrashIcon}
-          variant="red"
-          onClick={() => setDeletePanel({ id, name })}
-        />
-      </div>
-    </article>
+    <>
+      <Modal closeModal={() => setModalContent()}>{modalContent}</Modal>
+      <article className={style.row} key={username}>
+        <DisplayName avatar={avatar} name={name} username={username} />
+        <UserStatus status={active} />
+        <UserRole role={role} />
+        <div className={style.buttonWrapper}>
+          <ButtonIcon
+            icon={PencilIcon}
+            onClick={() =>
+              setModalContent(
+                <UsersListEditForm
+                  currentUser={{ id, name, username, role, active }}
+                  closeModal={() => setModalContent()}
+                />
+              )
+            }
+          />
+          <ButtonIcon
+            icon={TrashIcon}
+            variant="red"
+            onClick={() =>
+              setModalContent(
+                <UsersListDeleteForm
+                  currentUser={{ id, name }}
+                  closeModal={() => setModalContent()}
+                />
+              )
+            }
+          />
+        </div>
+      </article>
+    </>
   )
 }
 

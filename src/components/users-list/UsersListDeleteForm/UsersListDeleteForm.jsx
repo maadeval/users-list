@@ -5,16 +5,14 @@ import Button from "../../Button/Button"
 
 import style from "./UsersListDeleteForm.module.css"
 
-const UsersListDeleteForm = () => {
-  const { onSuccess, setFiltersPanel, currentUser } =
-    useContext(UserFormsContext)
-
+const UsersListDeleteForm = ({ currentUser, closeModal }) => {
+  const { onSuccess } = useContext(UserFormsContext)
   const [isSubmiting, setIsSubmitting] = useState(false)
 
   return (
     <form
       onSubmit={e =>
-        handleSubmit(e, currentUser.id, setIsSubmitting, onSuccess)
+        handleSubmit(e, currentUser.id, setIsSubmitting, onSuccess, closeModal)
       }>
       <div className={style.formRow}>
         <p>
@@ -28,7 +26,7 @@ const UsersListDeleteForm = () => {
           variant={"secondary"}
           disabled={isSubmiting}
           type="button"
-          onClick={setFiltersPanel}>
+          onClick={closeModal}>
           Cancelar
         </Button>
         <Button disabled={isSubmiting} type="submit">
@@ -39,15 +37,23 @@ const UsersListDeleteForm = () => {
   )
 }
 
-const handleSubmit = async (ev, userId, setIsSubmitting, onSuccess) => {
+const handleSubmit = async (
+  ev,
+  userId,
+  setIsSubmitting,
+  onSuccess,
+  closeModal
+) => {
   ev.preventDefault()
 
   setIsSubmitting(true)
 
   const { success } = await deleteUserById(userId)
 
-  if (success) onSuccess()
-  else setIsSubmitting(false)
+  if (!success) return setIsSubmitting(false)
+
+  onSuccess()
+  closeModal()
 }
 
 export default UsersListDeleteForm
