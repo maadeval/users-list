@@ -15,7 +15,7 @@ const Modal = ({ closeModal, children }) => {
           isFill
           onClick={closeModal}
         />
-        <span>Hola</span>
+        {children}
       </div>
     </div>,
     document.getElementById("modal")

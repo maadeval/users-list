@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import {
   OPTIONS_SELECT,
   SORT_OPTIONS,
@@ -14,16 +14,24 @@ import Button from "../../Button/Button"
 import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
 import InputSearch from "../../forms/InputSearch"
 import Select from "../../forms/Select/Select"
+import Modal from "../../Modal/Modal"
+import UsersListCreateForm from "../UsersListCreateForm/UsersListCreateForm"
 
 import style from "./UsersListFilters.module.css"
 
 const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
-  const { setCreatePanel, currentFormPanel } = useContext(UserFormsContext)
+  const [showModal, setShowModal] = useState(false)
+  const { currentFormPanel } = useContext(UserFormsContext)
 
   if (currentFormPanel !== USERS_FORM_PANELS.FILTERS) return null
 
   return (
     <div className={style.wrapper}>
+      <Modal closeModal={() => setShowModal(false)}>
+        {showModal && (
+          <UsersListCreateForm closeModal={() => setShowModal(false)} />
+        )}
+      </Modal>
       <div className={style.row}>
         <InputSearch
           placeholder="Buscar..."
@@ -57,7 +65,7 @@ const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
             Mostrar solo activos
           </label>
         </div>
-        <Button onClick={setCreatePanel}>Agregar Usuario</Button>
+        <Button onClick={() => setShowModal(true)}>Agregar Usuario</Button>
       </div>
     </div>
   )

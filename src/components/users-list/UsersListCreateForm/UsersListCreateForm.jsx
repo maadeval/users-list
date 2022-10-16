@@ -15,7 +15,7 @@ import Select from "../../forms/Select/Select"
 
 import style from "./UsersListCreateForm.module.css"
 
-const UsersListCreateForm = () => {
+const UsersListCreateForm = ({ closeModal }) => {
   const { onSuccess } = useContext(UserFormsContext)
 
   const [isSubmiting, setIsSubmitting] = useState(false)
@@ -24,50 +24,52 @@ const UsersListCreateForm = () => {
 
   return (
     <form
+      className={style.form}
       onSubmit={e =>
-        handleSubmit(e, name, username, setIsSubmitting, onSuccess)
+        handleSubmit(e, name, username, setIsSubmitting, onSuccess, closeModal)
       }>
-      <div className={style.formRow}>
-        <InputText
-          className={style.input}
-          error={name.error}
-          label="Nombre"
-          onChange={ev =>
-            dispatchFormValues(formValuesNameChanged(ev.target.value))
-          }
-          value={name.value}
-        />
-        <InputTextAsync
-          className={style.input}
-          error={username.error}
-          success={username.value && !username.error && !username.loading}
-          loading={username.loading}
-          label="Username"
-          onChange={ev =>
-            dispatchFormValues(formValuesUsernameChanged(ev.target.value))
-          }
-          value={username.value}
-        />
-      </div>
-      <div className={style.formRow}>
-        <Select name="role">
-          <option value={ROLE_OPTIONS.TEACHER}>Profesor</option>
-          <option value={ROLE_OPTIONS.STUDENT}>Alumno</option>
-          <option value={ROLE_OPTIONS.OTHER}>Otro</option>
-        </Select>
-        <label className={style.checkbox}>
-          <InputCheckbox name="active" />
-          <span>Activo?</span>
-        </label>
-        <Button disabled={isFormInvalid || isSubmiting} type="submit">
-          {isSubmiting ? "Creando..." : "Crear usuario"}
-        </Button>
-      </div>
+      <InputText
+        error={name.error}
+        label="Nombre"
+        onChange={ev =>
+          dispatchFormValues(formValuesNameChanged(ev.target.value))
+        }
+        value={name.value}
+      />
+      <InputTextAsync
+        error={username.error}
+        success={username.value && !username.error && !username.loading}
+        loading={username.loading}
+        label="Username"
+        onChange={ev =>
+          dispatchFormValues(formValuesUsernameChanged(ev.target.value))
+        }
+        value={username.value}
+      />
+      <Select name="role" className={style.select}>
+        <option value={ROLE_OPTIONS.TEACHER}>Profesor</option>
+        <option value={ROLE_OPTIONS.STUDENT}>Alumno</option>
+        <option value={ROLE_OPTIONS.OTHER}>Otro</option>
+      </Select>
+      <label className={style.checkbox}>
+        <InputCheckbox name="active" />
+        <span>Activo?</span>
+      </label>
+      <Button disabled={isFormInvalid || isSubmiting} type="submit">
+        {isSubmiting ? "Creando..." : "Crear usuario"}
+      </Button>
     </form>
   )
 }
 
-const handleSubmit = async (ev, name, username, setIsSubmitting, onSuccess) => {
+const handleSubmit = async (
+  ev,
+  name,
+  username,
+  setIsSubmitting,
+  onSuccess,
+  closeModal
+) => {
   ev.preventDefault()
 
   setIsSubmitting(true)
@@ -83,9 +85,10 @@ const handleSubmit = async (ev, name, username, setIsSubmitting, onSuccess) => {
   const { success, aborted } = await createUser(newUser)
 
   if (aborted) return
+  if (!success) return setIsSubmitting(false)
 
-  if (success) onSuccess()
-  else setIsSubmitting(false)
+  onSuccess()
+  closeModal()
 }
 
 export default UsersListCreateForm
