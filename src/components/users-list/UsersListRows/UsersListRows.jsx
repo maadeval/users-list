@@ -12,9 +12,9 @@ const UsersListRows = ({ users, error, loading, isCardView }) => {
     <section className={style.wrapper}>
       {users.map(user =>
         isCardView ? (
-          <UserCard {...user} key={user.id} />
+          <UserCard user={user} key={user.id} />
         ) : (
-          <UserRow {...user} key={user.id} />
+          <UserRow user={user} key={user.id} />
         )
       )}
     </section>
