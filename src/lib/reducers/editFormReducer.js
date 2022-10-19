@@ -60,8 +60,6 @@ export const editFormValuesReducer = (state, { type, payload }) => {
         ...state,
         role: payload,
       }
-    case EDIT_FORM_ACTIONS.REPLACE:
-      return payload
     default:
       throw new Error('Invalid action type: "' + type + '"')
   }

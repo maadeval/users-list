@@ -8,7 +8,11 @@ import style from "./UserCard.module.css"
 const UserCard = ({ user }) => (
   <article className={style.wrapper} key={user.username}>
     <div className={style.card}>
-      <DisplayName avatar={user.avatar} name={name} username={user.username} />
+      <DisplayName
+        avatar={user.avatar}
+        name={user.name}
+        username={user.username}
+      />
       <div className={style.footer}>
         <div className={style.statusRoleWrapper}>
           <UserRole role={user.role} />

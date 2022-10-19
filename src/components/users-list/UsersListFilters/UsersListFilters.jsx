@@ -1,15 +1,13 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import {
   OPTIONS_SELECT,
   SORT_OPTIONS,
 } from "../../../constants/sortUsersSelect"
-import { USERS_FORM_PANELS } from "../../../constants/usersFormsPanels"
 import {
   activeChanged,
   searchChanged,
   sortByChanged,
 } from "../../../lib/actions/filtersActions"
-import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import Button from "../../Button/Button"
 import InputCheckbox from "../../forms/InputCheckbox/InputCheckbox"
 import InputSearch from "../../forms/InputSearch"
@@ -21,9 +19,6 @@ import style from "./UsersListFilters.module.css"
 
 const UsersListFilters = ({ search, active, sort, dispatchFilters }) => {
   const [showModal, setShowModal] = useState(false)
-  const { currentFormPanel } = useContext(UserFormsContext)
-
-  if (currentFormPanel !== USERS_FORM_PANELS.FILTERS) return null
 
   return (
     <div className={style.wrapper}>

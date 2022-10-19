@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from "react"
-import { replaceChanged } from "../actions/editFormActions"
 import {
   editFormValuesReducer,
   getFormValuesInitialState,
@@ -13,12 +12,6 @@ export const useEditForm = initialUser => {
     initialUser,
     getFormValuesInitialState
   )
-
-  useEffect(() => {
-    dispatchFormEditValues(
-      replaceChanged(getFormValuesInitialState(initialUser))
-    )
-  }, [initialUser])
 
   useEffect(() => {
     if (!formEditValues.username.loading) return

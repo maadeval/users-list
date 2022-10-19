@@ -20,11 +20,6 @@ export const activeChanged = active => ({
   payload: active,
 })
 
-export const replaceChanged = initialUser => ({
-  type: EDIT_FORM_ACTIONS.REPLACE,
-  payload: initialUser,
-})
-
 export const usernameErrorChanged = error => ({
   type: EDIT_FORM_ACTIONS.USERNAME_ERROR,
   payload: error,

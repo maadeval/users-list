@@ -1,12 +1,12 @@
 import { useReducer, useState } from "react"
-import { UserFormsProvider } from "../../../lib/context/userFormsContext/UserFormsContext"
+import { resetChanged } from "../../../lib/actions/filtersActions"
+import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
 import { useUsers } from "../../../lib/hooks/useUser"
 import {
   filtersReducer,
   FILTERS_INITIAL_STATE,
 } from "../../../lib/reducers/filtersReducer"
 import UsersListViewSelector from "../../UsersListViewSelector/UsersListViewSelector"
-import UsersFormContainer from "../UsersFormContainer/UsersFormContainer"
 import UsersListFilters from "../UsersListFilters/UsersListFilters"
 import UsersListPagination from "../UsersListPagination"
 import UsersListRows from "../UsersListRows"
@@ -26,14 +26,14 @@ const UsersList = () => {
   return (
     <section className={style.layout}>
       <h1 className={style.title}>Lista de usuarios</h1>
-      <UserFormsProvider dispatchFilters={dispatchFilters}>
+      <UserFormsContext.Provider
+        value={{ onSuccess: () => dispatchFilters(resetChanged()) }}>
         <UsersListFilters
           dispatchFilters={dispatchFilters}
           active={filters.active}
           search={filters.search}
           sort={filters.sort}
         />
-        <UsersFormContainer />
         <UsersListViewSelector
           isCardView={isCardView}
           setIsCardView={setIsCardView}
@@ -44,7 +44,7 @@ const UsersList = () => {
           users={users}
           isCardView={isCardView}
         />
-      </UserFormsProvider>
+      </UserFormsContext.Provider>
       <UsersListPagination
         dispatchFilters={dispatchFilters}
         page={filters.page}
