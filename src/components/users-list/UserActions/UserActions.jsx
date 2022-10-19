@@ -7,36 +7,34 @@ import UsersListDeleteForm from "../UsersListDeleteForm/UsersListDeleteForm"
 import UsersListEditForm from "../UsersListEditForm"
 
 const UserActions = ({ user }) => {
-  const [modalContent, setModalContent] = useState()
+  const { modalContent, closeModal, openEditModal, openDeleteModal } =
+    useModal(user)
 
   return (
     <>
-      <Modal closeModal={() => setModalContent()}>{modalContent}</Modal>
-      <ButtonIcon
-        icon={PencilIcon}
-        onClick={() =>
-          setModalContent(
-            <UsersListEditForm
-              currentUser={user}
-              closeModal={() => setModalContent()}
-            />
-          )
-        }
-      />
-      <ButtonIcon
-        icon={TrashIcon}
-        variant="red"
-        onClick={() =>
-          setModalContent(
-            <UsersListDeleteForm
-              currentUser={user}
-              closeModal={() => setModalContent()}
-            />
-          )
-        }
-      />
+      <Modal closeModal={closeModal}>{modalContent}</Modal>
+      <ButtonIcon icon={PencilIcon} onClick={openEditModal} />
+      <ButtonIcon icon={TrashIcon} variant="red" onClick={openDeleteModal} />
     </>
   )
+}
+
+const useModal = user => {
+  const [modalContent, setModalContent] = useState()
+
+  const closeModal = () => setModalContent()
+
+  const openEditModal = () =>
+    setModalContent(
+      <UsersListEditForm currentUser={user} closeModal={closeModal} />
+    )
+
+  const openDeleteModal = () =>
+    setModalContent(
+      <UsersListDeleteForm currentUser={user} closeModal={closeModal} />
+    )
+
+  return { modalContent, closeModal, openEditModal, openDeleteModal }
 }
 
 export default UserActions
