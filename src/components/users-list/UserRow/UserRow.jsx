@@ -8,7 +8,7 @@ import style from "./UserRow.module.css"
 const UserRow = ({ user }) => (
   <article className={style.row} key={user.username}>
     <DisplayName
-      avatar={user.avatar}
+      picture={user.picture}
       name={user.name}
       username={user.username}
     />
