@@ -9,7 +9,7 @@ const UserCard = ({ user }) => (
   <article className={style.wrapper} key={user.username}>
     <div className={style.card}>
       <DisplayName
-        avatar={user.avatar}
+        picture={user.picture}
         name={user.name}
         username={user.username}
       />
