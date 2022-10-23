@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { alertBox } from "../events/alertEvents"
 import { getUsers } from "../services/getUsers"
 
 export const useUsers = filters => {
@@ -46,5 +47,8 @@ const loadUsers = async (setData, setError, signal, filters) => {
 
   if (aborted) return
   if (users) setData(users, count)
-  else setError()
+  else {
+    setError()
+    alertBox.error("Error al cargar los usuarios")
+  }
 }

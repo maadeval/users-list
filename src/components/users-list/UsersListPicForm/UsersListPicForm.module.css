@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 11px;
+  gap: 2rem;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.figure {
+  position: relative;
+}
+
+.picture {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.error {
+  font-size: var(--text-sm);
+  color: var(--color-red);
+  max-width: 40ch;
+  text-align: center;
+}
+
+.input {
+  display: none;
+}

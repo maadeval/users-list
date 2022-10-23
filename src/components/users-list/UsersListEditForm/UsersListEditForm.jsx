@@ -7,6 +7,7 @@ import {
   usernameChanged,
 } from "../../../lib/actions/editFormActions"
 import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
+import { alertBox } from "../../../lib/events/alertEvents"
 import { useEditForm } from "../../../lib/hooks/useEditForm"
 import { updateUser } from "../../../lib/services/updateUser"
 import Button from "../../Button/Button"
@@ -112,9 +113,14 @@ const handleSubmit = async (
 
   const { success } = await updateUser(user)
 
-  if (!success) return setIsSubmitting(false)
+  if (!success) {
+    setIsSubmitting(false)
+    alertBox.error("Error al editar usuario")
+  } else {
+    onSuccess()
+    alertBox.success("Usuario editado correctamente")
+  }
 
-  onSuccess()
   closeModal()
 }
 

@@ -1,35 +1,60 @@
-import { useContext, useState } from "react"
+import { useContext, useRef, useState } from "react"
 import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
+import { alertBox } from "../../../lib/events/alertEvents"
 import { updateUserPic } from "../../../lib/services/updateUserPic"
 import { fileToURL } from "../../../lib/utils/file-utils"
 import Button from "../../Button/Button"
+import ButtonIcon from "../../ButtonIcon/ButtonIcon"
+import PencilIcon from "../../icons/PencilIcon/PencilIcon"
+
+import style from "./UsersListPicForm.module.css"
 
 const UsersListPicForm = ({ currentUser, closeModal }) => {
   const { onSuccess } = useContext(UserFormsContext)
   const [preview, setPreview] = useState()
+  const [isSubmiting, setIsSubmiting] = useState(false)
+  const inputRef = useRef(null)
 
   return (
-    <>
-      <img src={preview?.src || currentUser.picture || "/user-pic.svg"} />
-      {preview && preview.src && <p>{preview.filename}</p>}
-      {preview && preview.error && <p>{preview.error}</p>}
+    <div className={style.wrapper}>
+      <h3 className={style.title}>Editar foto</h3>
+      <div className={style.figure}>
+        <img
+          className={style.picture}
+          src={preview?.src || currentUser.picture || "/user-pic.svg"}
+        />
+        <ButtonIcon
+          onClick={() => inputRef.current.click()}
+          className={style.edit}
+          icon={PencilIcon}
+          isFill
+        />
+      </div>
+      {preview && preview.src && (
+        <p className={style.filename}>{preview.filename}</p>
+      )}
+      {preview && preview.error && (
+        <p className={style.error}>{preview.error}</p>
+      )}
       <input
+        ref={inputRef}
+        className={style.input}
         accept={ALLOWED_MIME_TYPES.join(",")}
-        name="picture"
         type="file"
         onChange={ev => handleChange(ev, setPreview)}
       />
       <Button
-        disabled={!preview}
+        disabled={!preview || !preview.src || isSubmiting}
         onClick={() =>
           handleClick(currentUser.id, preview.src, {
             closeModal,
             onSuccess,
+            setIsSubmiting,
           })
         }>
-        Guardar cambios
+        {isSubmiting ? "Actualizando..." : "Actualizar foto"}
       </Button>
-    </>
+    </div>
   )
 }
 
@@ -71,13 +96,23 @@ const handleChange = async (ev, setPreview) => {
   }
 }
 
-const handleClick = async (userId, fileURL, { closeModal, onSuccess }) => {
+const handleClick = async (
+  userId,
+  fileURL,
+  { closeModal, onSuccess, setIsSubmiting }
+) => {
+  setIsSubmiting(true)
+
   const { success } = await updateUserPic(userId, fileURL)
 
   if (success) {
     onSuccess()
-    closeModal()
+    alertBox.success("Foto actualizada correctamente")
+  } else {
+    setIsSubmiting(false)
+    alertBox.error("No se pudo actualizar la foto")
   }
+  closeModal()
 }
 
 export default UsersListPicForm

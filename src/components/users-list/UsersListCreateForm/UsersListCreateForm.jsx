@@ -5,6 +5,7 @@ import {
   formValuesUsernameChanged,
 } from "../../../lib/actions/formValuesActions"
 import { UserFormsContext } from "../../../lib/context/userFormsContext/UserFormsContext"
+import { alertBox } from "../../../lib/events/alertEvents"
 import { useCreateForm } from "../../../lib/hooks/useCreateForm"
 import { createUser } from "../../../lib/services/createUsers"
 import Button from "../../Button/Button"
@@ -85,9 +86,15 @@ const handleSubmit = async (
   const { success, aborted } = await createUser(newUser)
 
   if (aborted) return
-  if (!success) return setIsSubmitting(false)
 
-  onSuccess()
+  if (!success) {
+    setIsSubmitting(false)
+    alertBox.error("Error al crear el usuario")
+  } else {
+    alertBox.success("Usuario creado correctamente")
+    onSuccess()
+  }
+
   closeModal()
 }
 
